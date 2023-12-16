@@ -26,14 +26,14 @@ namespace AutomotiveForumSystem.Controllers
 
         // GET: api/posts
         [HttpGet]
-        public ActionResult<IEnumerable<Post>> Get()
+        public IActionResult Get()
         {
             return Ok(postService.GetAll());
         }
 
         // GET: api/posts/categoryName
         [HttpGet]
-        public ActionResult<Post> Get([FromQuery] string categoryName)
+        public IActionResult Get([FromQuery] string categoryName)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace AutomotiveForumSystem.Controllers
 
         // GET: api/posts/userId
         [HttpGet]
-        public ActionResult<IEnumerable<Post>> Get([FromQuery] int userId, [FromQuery] PostQueryParameters postQueryParameters)
+        public IActionResult Get([FromQuery] int userId, [FromQuery] PostQueryParameters postQueryParameters)
         {
             try
             {
