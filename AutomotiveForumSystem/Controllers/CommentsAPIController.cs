@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace AutomotiveForumSystem.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class CategoriesAPIController : ControllerBase
+    [Route("api/comments")]
+    public class CommentsAPIController : ControllerBase
     {
         private readonly ICommentsService commentsService;
 
-        public CategoriesAPIController(ICommentsService commentsService)
+        public CommentsAPIController(ICommentsService commentsService)
         {
             this.commentsService = commentsService;
         }
