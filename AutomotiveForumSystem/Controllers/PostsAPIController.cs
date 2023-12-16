@@ -33,8 +33,8 @@ namespace AutomotiveForumSystem.Controllers
         }
 
         // GET: api/posts/categoryName
-        [HttpGet]
-        public IActionResult Get([FromQuery] string categoryName)
+        [HttpGet("{categoryName}")]
+        public IActionResult Get(string categoryName)
         {
             try
             {
@@ -48,8 +48,8 @@ namespace AutomotiveForumSystem.Controllers
         }
 
         // GET: api/posts/userId
-        [HttpGet]
-        public IActionResult Get([FromQuery] int userId, [FromQuery] PostQueryParameters postQueryParameters)
+        [HttpGet("{id}")]
+        public IActionResult Get(int userId, [FromQuery] PostQueryParameters postQueryParameters)
         {
             try
             {
