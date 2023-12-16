@@ -1,5 +1,6 @@
 ﻿using AutomotiveForumSystem.Exceptions;
 using AutomotiveForumSystem.Helpers;
+using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.PostDtos;
 using AutomotiveForumSystem.Services.Contracts;
@@ -14,10 +15,10 @@ namespace AutomotiveForumSystem.Controllers
     public class PostsAPIController : ControllerBase
     {
         private readonly IPostService postService;
-        private readonly PostModelMapper postModelMapper;
-        private readonly AuthManager authManager;
+        private readonly IPostModelMapper postModelMapper;
+        private readonly IAuthManager authManager;
 
-        public PostsAPIController(IPostService postService, PostModelMapper postModelMapper, AuthManager authManager)
+        public PostsAPIController(IPostService postService, IPostModelMapper postModelMapper, IAuthManager authManager)
         {
             this.postService = postService;
             this.postModelMapper = postModelMapper;
@@ -28,7 +29,7 @@ namespace AutomotiveForumSystem.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(postService.GetAll());
+            return Ok(this.postService.GetAll());
         }
 
         // GET: api/posts/categoryName
@@ -37,7 +38,7 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var posts = postService.GetByCategory(categoryName);
+                var posts = this.postService.GetByCategory(categoryName);
                 return Ok(posts);
             }
             catch (EntityNotFoundException ex)
@@ -52,7 +53,7 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var posts = postService.GetByUser(userId, postQueryParameters);
+                var posts = this.postService.GetByUser(userId, postQueryParameters);
                 return Ok(posts);
             }
             catch (EntityNotFoundException ex)
@@ -70,7 +71,7 @@ namespace AutomotiveForumSystem.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var createdPost = postService.Create(postModelMapper.Map(model), currentUser);
+            var createdPost = this.postService.Create(postModelMapper.Map(model), currentUser);
             return StatusCode(StatusCodes.Status201Created, createdPost);
         }
 

@@ -1,10 +1,11 @@
 ﻿using AutomotiveForumSystem.Data;
+using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.PostDtos;
 
 namespace AutomotiveForumSystem.Helpers
 {
-    public class PostModelMapper
+    public class PostModelMapper : IPostModelMapper
     {
         private readonly ApplicationContext applicationContext;
 
