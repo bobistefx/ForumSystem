@@ -1,5 +1,6 @@
 ﻿using AutomotiveForumSystem.Data;
 using AutomotiveForumSystem.Models;
+using AutomotiveForumSystem.Models.PostDtos;
 
 namespace AutomotiveForumSystem.Helpers
 {
@@ -12,7 +13,7 @@ namespace AutomotiveForumSystem.Helpers
             this.applicationContext = applicationContext;
         }
 
-        public Post Map(CreatePostModel model)
+        public Post Map(PostModelCreate model)
         {
             var post = new Post
             {

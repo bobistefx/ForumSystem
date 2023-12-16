@@ -1,4 +1,5 @@
 ﻿using AutomotiveForumSystem.Models;
+using AutomotiveForumSystem.Models.PostDtos;
 
 namespace AutomotiveForumSystem.Repositories.Contracts
 {

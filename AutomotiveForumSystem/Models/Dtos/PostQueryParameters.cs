@@ -1,4 +1,4 @@
-﻿namespace AutomotiveForumSystem.Models
+﻿namespace AutomotiveForumSystem.Models.PostDtos
 {
     public class PostQueryParameters
     {

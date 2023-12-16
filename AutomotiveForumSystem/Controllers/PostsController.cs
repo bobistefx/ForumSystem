@@ -1,6 +1,7 @@
 ﻿using AutomotiveForumSystem.Exceptions;
 using AutomotiveForumSystem.Helpers;
 using AutomotiveForumSystem.Models;
+using AutomotiveForumSystem.Models.PostDtos;
 using AutomotiveForumSystem.Services.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -62,7 +63,7 @@ namespace AutomotiveForumSystem.Controllers
 
         // POST: api/posts
         [HttpPost]
-        public IActionResult CreatePost([FromHeader]string credentials, [FromBody] CreatePostModel model)
+        public IActionResult CreatePost([FromHeader]string credentials, [FromBody] PostModelCreate model)
         {
             var currentUser = this.authManager.TryGetUser(credentials);
             if (!ModelState.IsValid)

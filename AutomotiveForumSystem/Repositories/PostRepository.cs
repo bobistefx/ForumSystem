@@ -1,6 +1,7 @@
 ﻿using AutomotiveForumSystem.Data;
 using AutomotiveForumSystem.Exceptions;
 using AutomotiveForumSystem.Models;
+using AutomotiveForumSystem.Models.PostDtos;
 using AutomotiveForumSystem.Repositories.Contracts;
 
 namespace AutomotiveForumSystem.Repositories

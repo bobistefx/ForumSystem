@@ -1,5 +1,6 @@
 ﻿using AutomotiveForumSystem.Exceptions;
 using AutomotiveForumSystem.Models;
+using AutomotiveForumSystem.Models.PostDtos;
 using AutomotiveForumSystem.Repositories;
 using AutomotiveForumSystem.Services.Contracts;
 

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AutomotiveForumSystem.Models
+namespace AutomotiveForumSystem.Models.PostDtos
 {
-    public class CreatePostModel
+    public class PostModelCreate
     {
         public string? CategoryName { get; set; }
 
