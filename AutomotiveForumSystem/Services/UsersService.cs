@@ -13,6 +13,11 @@ namespace AutomotiveForumSystem.Services
             this.users = users;
         }
         
+        public IUser Create(IUser user)
+        {
+            return this.users.Create(user);
+        }
+
         public IUser GetById(int id)
         {
             return this.users.GetById(id);
@@ -25,7 +30,7 @@ namespace AutomotiveForumSystem.Services
 
         public IUser Update()
         {
-
+            throw new NotImplementedException();
         }
     }
 }

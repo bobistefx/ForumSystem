@@ -1,5 +1,4 @@
 ﻿using AutomotiveForumSystem.Helpers.Contracts;
-using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.DTOS;
 using AutomotiveForumSystem.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -22,13 +21,23 @@ namespace AutomotiveForumSystem.Controllers
         [HttpPost("")]
         public IActionResult Create([FromBody] UserCreateDTO userDTO)
         {
-            var user = this.userMapper.Map(userDTO);
+            //try
+            //{
+            //    var user = this.userMapper.Map(userDTO);
+            //    this.usersService.GetByUsername(userDTO.Username);
+            //}
+            //catch (Exception)
+            //{
+
+            //    throw;
+            //}
+            throw new NotImplementedException();
         }
 
         [HttpPut("{id}")]
         public IActionResult Update([FromHeader] string credentials)
         {
-
+            throw new NotImplementedException();
         }
     }
 }

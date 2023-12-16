@@ -1,6 +1,5 @@
 ﻿using AutomotiveForumSystem.Data;
 using AutomotiveForumSystem.Exceptions;
-using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.Contracts;
 using AutomotiveForumSystem.Repositories.Contracts;
 
@@ -37,7 +36,7 @@ namespace AutomotiveForumSystem.Repositories
 
         public IUser Update()
         {
-            
+            throw new NotImplementedException();
         }
     }
 }

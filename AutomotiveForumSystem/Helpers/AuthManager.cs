@@ -1,4 +1,5 @@
-﻿using AutomotiveForumSystem.Helpers.Contracts;
+﻿using AutomotiveForumSystem.Exceptions;
+using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models.Contracts;
 using AutomotiveForumSystem.Services.Contracts;
 
@@ -24,8 +25,10 @@ namespace AutomotiveForumSystem.Helpers
 
             if (user.Password != password)
             {
-                throw new 
+                throw new AuthenticationException("No such user");
             }
+
+            throw new NotImplementedException();
         }
     }
 }
