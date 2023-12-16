@@ -29,18 +29,8 @@ namespace AutomotiveForumSystem.Repositories
 
         public IList<PostResponseDto> GetAll()
         {
-            IList<PostResponseDto> result = applicationContext.Posts
-                .Select(p => new PostResponseDto()
-                {
-                    Category = p.Category.Name,
-                    Title = p.Title,
-                    Content = p.Content,
-                    CreateDate = p.CreateDate,
-                    Comments = p.Comments,
-                    Likes = p.Likes,
-                })
-                .ToList();
-            return result;
+            IQueryable<Post> postsToReturn = applicationContext.Posts;
+            return MapPostsToResponseDtos(postsToReturn);
         }
 
         public IList<PostResponseDto> GetByCategory(string categoryName)
@@ -80,18 +70,7 @@ namespace AutomotiveForumSystem.Repositories
             {
                 postsToReturn = postsToReturn.Where(p => p.Title == postQueryParameters.Title);
             }
-
-            List<PostResponseDto> result = postsToReturn
-                .Select(p => new PostResponseDto()
-                {
-                    Category = p.Category.Name,
-                    Title = p.Title,
-                    Content = p.Content,
-                    CreateDate = p.CreateDate,
-                    Comments = p.Comments,
-                    Likes = p.Likes
-                })
-                .ToList();
+            List<PostResponseDto> result = MapPostsToResponseDtos(postsToReturn);
             return result;
         }
 
@@ -111,6 +90,21 @@ namespace AutomotiveForumSystem.Repositories
             applicationContext.SaveChanges();
 
             return postToUpdate;
+        }
+
+        private static List<PostResponseDto> MapPostsToResponseDtos(IQueryable<Post> postsToReturn)
+        {
+            return postsToReturn
+                .Select(p => new PostResponseDto()
+                {
+                    Category = p.Category.Name,
+                    Title = p.Title,
+                    Content = p.Content,
+                    CreateDate = p.CreateDate,
+                    Comments = p.Comments,
+                    Likes = p.Likes
+                })
+                .ToList();
         }
     }
 }
