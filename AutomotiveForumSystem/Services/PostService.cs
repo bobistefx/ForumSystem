@@ -25,7 +25,7 @@ namespace AutomotiveForumSystem.Services
 
         public void Delete(int id, User currentUser)
         {
-            var postToDelete = this.postRepository.GetById(id);
+            var postToDelete = this.postRepository.GetPostById(id);
             if (!IsPostCreatedByUser(postToDelete, currentUser) && !IsUserAdmin(currentUser))
             {
                 throw new AuthorizationException("Not admin or post creator!");
@@ -33,29 +33,29 @@ namespace AutomotiveForumSystem.Services
             this.postRepository.Delete(postToDelete, currentUser);
         }
 
-        public IList<PostResponseDto> GetAll()
+        public IList<PostResponseDto> GetAllPosts()
         {
-            return this.postRepository.GetAll();
+            return this.postRepository.GetAllPosts();
         }
 
-        public IList<PostResponseDto> GetByCategory(string categoryName)
+        public IList<PostResponseDto> GetPostsByCategory(string categoryName)
         {
-            return this.postRepository.GetByCategory(categoryName);
+            return this.postRepository.GetPostByCategory(categoryName);
         }
 
-        public Post GetById(int id)
+        public Post GetPostById(int id)
         {
-            return this.postRepository.GetById(id);
+            return this.postRepository.GetPostById(id);
         }
 
-        public IList<PostResponseDto> GetByUser(int userId, PostQueryParameters postQueryParameters)
+        public IList<PostResponseDto> GetPostsByUser(int userId, PostQueryParameters postQueryParameters)
         {
-            return this.postRepository.GetByUser(userId, postQueryParameters);
+            return this.postRepository.GetPostsByUser(userId, postQueryParameters);
         }
 
         public Post Update(int id, Post post, User currentUser)
         {
-            var postToUpdate = this.postRepository.GetById(id);
+            var postToUpdate = this.postRepository.GetPostById(id);
             if (!IsPostCreatedByUser(postToUpdate, currentUser))
             {
                 throw new AuthorizationException("Not post creator!");

@@ -29,7 +29,7 @@ namespace AutomotiveForumSystem.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(this.postService.GetAll());
+            return Ok(this.postService.GetAllPosts());
         }
 
         // GET: api/posts/categoryName
@@ -38,7 +38,7 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var posts = this.postService.GetByCategory(categoryName);
+                var posts = this.postService.GetPostsByCategory(categoryName);
                 return Ok(posts);
             }
             catch (EntityNotFoundException ex)
@@ -53,7 +53,7 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var posts = this.postService.GetByUser(userId, postQueryParameters);
+                var posts = this.postService.GetPostsByUser(userId, postQueryParameters);
                 return Ok(posts);
             }
             catch (EntityNotFoundException ex)
@@ -110,6 +110,10 @@ namespace AutomotiveForumSystem.Controllers
                 return NotFound(ex.Message);
             }
             catch (AuthorizationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (AuthenticationException ex)
             {
                 return BadRequest(ex.Message);
             }

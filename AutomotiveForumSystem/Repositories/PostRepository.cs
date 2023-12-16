@@ -28,13 +28,13 @@ namespace AutomotiveForumSystem.Repositories
             this.applicationContext.Posts.Remove(post);
         }
 
-        public IList<PostResponseDto> GetAll()
+        public IList<PostResponseDto> GetAllPosts()
         {
             IQueryable<Post> postsToReturn = applicationContext.Posts;
             return MapPostsToResponseDtos(postsToReturn);
         }
 
-        public IList<PostResponseDto> GetByCategory(string categoryName)
+        public IList<PostResponseDto> GetPostByCategory(string categoryName)
         {
             var postsToReturn = this.applicationContext.Posts.AsQueryable()
                 .Where(p => p.Category.Name == categoryName);
@@ -50,13 +50,13 @@ namespace AutomotiveForumSystem.Repositories
             return result;
         }
 
-        public Post GetById(int id)
+        public Post GetPostById(int id)
         {
             return applicationContext.Posts.FirstOrDefault(p => p.Id == id)
                 ?? throw new EntityNotFoundException($"Post with ID: {id} not found");
         }
 
-        public IList<PostResponseDto> GetByUser(int userId, PostQueryParameters postQueryParameters)
+        public IList<PostResponseDto> GetPostsByUser(int userId, PostQueryParameters postQueryParameters)
         {
             var user = this.applicationContext.Users.FirstOrDefault(u => u.Id == userId)
                 ?? throw new EntityNotFoundException($"User with ID: {userId} doesn't exist");
