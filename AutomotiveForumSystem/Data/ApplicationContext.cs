@@ -33,8 +33,9 @@ namespace AutomotiveForumSystem.Data
                 {
                     Id = 2,
                     Name = "user",
-                },
+                }
             };
+
             modelBuilder.Entity<Role>().HasData(roles);
 
             // Seed users
@@ -73,8 +74,9 @@ namespace AutomotiveForumSystem.Data
                     Password = "3344",
                     PhoneNumber = null,
                     RoleID = 2,
-                },
+                }
             };
+
             modelBuilder.Entity<User>().HasData(users);
 
             // Seed categories
@@ -84,8 +86,9 @@ namespace AutomotiveForumSystem.Data
                 new Category { Id = 1, Name = "Tuning" },
                 new Category { Id = 2, Name = "Engines" },
                 new Category { Id = 3, Name = "Suspension" },
-                new Category { Id = 4, Name = "Electronics" },
+                new Category { Id = 4, Name = "Electronics" }
             };
+
             modelBuilder.Entity<Category>().HasData(categories);
 
             // Seed posts
@@ -99,8 +102,9 @@ namespace AutomotiveForumSystem.Data
                     Title = "I got my supra 1200 HP. Here is how i did that...",
                     Content = "Step by step tutorial.",
                     CreateDate = DateTime.Now,
-                },
+                }
             };
+
             modelBuilder.Entity<Post>().HasData(posts);
 
             // Seed comments
@@ -111,8 +115,9 @@ namespace AutomotiveForumSystem.Data
                 {
                     Id = 1,
                     Content = "Awesome. I will follow your tutorial to tune my supra."
-                },
+                }
             };
+
             modelBuilder.Entity<Comment>().HasData(comments);
         }
     }
