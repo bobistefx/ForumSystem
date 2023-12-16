@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutomotiveForumSystem.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20231215141030_Initial")]
+    [Migration("20231215162126_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -87,6 +87,9 @@ namespace AutomotiveForumSystem.Migrations
                         .HasMaxLength(8192)
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -111,6 +114,7 @@ namespace AutomotiveForumSystem.Migrations
                         {
                             Id = 1,
                             Content = "Awesome. I will follow your tutorial to tune my supra.",
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false
                         });
                 });
@@ -162,7 +166,7 @@ namespace AutomotiveForumSystem.Migrations
                             Id = 1,
                             CategoryID = 1,
                             Content = "Step by step tutorial.",
-                            CreateDate = new DateTime(2023, 12, 15, 16, 10, 30, 170, DateTimeKind.Local).AddTicks(5427),
+                            CreateDate = new DateTime(2023, 12, 15, 18, 21, 26, 103, DateTimeKind.Local).AddTicks(2686),
                             IsDeleted = false,
                             Likes = 0,
                             Title = "I got my supra 1200 HP. Here is how i did that..."

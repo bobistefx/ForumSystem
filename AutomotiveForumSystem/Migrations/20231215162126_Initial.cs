@@ -101,6 +101,7 @@ namespace AutomotiveForumSystem.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(type: "nvarchar(max)", maxLength: 8192, nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CommentId = table.Column<int>(type: "int", nullable: true),
                     PostId = table.Column<int>(type: "int", nullable: true),
@@ -139,8 +140,8 @@ namespace AutomotiveForumSystem.Migrations
 
             migrationBuilder.InsertData(
                 table: "Comments",
-                columns: new[] { "Id", "CommentId", "Content", "IsDeleted", "PostId", "UserId" },
-                values: new object[] { 1, null, "Awesome. I will follow your tutorial to tune my supra.", false, null, null });
+                columns: new[] { "Id", "CommentId", "Content", "CreateDate", "IsDeleted", "PostId", "UserId" },
+                values: new object[] { 1, null, "Awesome. I will follow your tutorial to tune my supra.", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, null });
 
             migrationBuilder.InsertData(
                 table: "Roles",
@@ -154,7 +155,7 @@ namespace AutomotiveForumSystem.Migrations
             migrationBuilder.InsertData(
                 table: "Posts",
                 columns: new[] { "Id", "CategoryID", "Content", "CreateDate", "IsDeleted", "Likes", "Title", "UserId" },
-                values: new object[] { 1, 1, "Step by step tutorial.", new DateTime(2023, 12, 15, 16, 10, 30, 170, DateTimeKind.Local).AddTicks(5427), false, 0, "I got my supra 1200 HP. Here is how i did that...", null });
+                values: new object[] { 1, 1, "Step by step tutorial.", new DateTime(2023, 12, 15, 18, 21, 26, 103, DateTimeKind.Local).AddTicks(2686), false, 0, "I got my supra 1200 HP. Here is how i did that...", null });
 
             migrationBuilder.InsertData(
                 table: "Users",

@@ -164,7 +164,7 @@ namespace AutomotiveForumSystem.Migrations
                             Id = 1,
                             CategoryID = 1,
                             Content = "Step by step tutorial.",
-                            CreateDate = new DateTime(2023, 12, 15, 16, 19, 38, 548, DateTimeKind.Local).AddTicks(498),
+                            CreateDate = new DateTime(2023, 12, 15, 18, 21, 26, 103, DateTimeKind.Local).AddTicks(2686),
                             IsDeleted = false,
                             Likes = 0,
                             Title = "I got my supra 1200 HP. Here is how i did that..."
