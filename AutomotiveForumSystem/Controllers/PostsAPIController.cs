@@ -9,15 +9,15 @@ using System.Runtime.InteropServices;
 
 namespace AutomotiveForumSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/posts")]
     [ApiController]
-    public class PostsController : ControllerBase
+    public class PostsAPIController : ControllerBase
     {
         private readonly IPostService postService;
         private readonly PostModelMapper postModelMapper;
         private readonly AuthManager authManager;
 
-        public PostsController(IPostService postService, PostModelMapper postModelMapper, AuthManager authManager)
+        public PostsAPIController(IPostService postService, PostModelMapper postModelMapper, AuthManager authManager)
         {
             this.postService = postService;
             this.postModelMapper = postModelMapper;
