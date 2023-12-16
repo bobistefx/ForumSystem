@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AutomotiveForumSystem.Models
 {
+    // Test comment
     public class Comment : IComment
     {
         [Key]
