@@ -1,5 +1,6 @@
 ﻿using AutomotiveForumSystem.Exceptions;
 using AutomotiveForumSystem.Helpers.Contracts;
+using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.Contracts;
 using AutomotiveForumSystem.Services.Contracts;
 
@@ -14,7 +15,7 @@ namespace AutomotiveForumSystem.Helpers
             this.usersService = usersService;
         }
 
-        public IUser TryGetUser(string credentials)
+        public User TryGetUser(string credentials)
         {
             var credentialsArgs = credentials.Split(":");
 
