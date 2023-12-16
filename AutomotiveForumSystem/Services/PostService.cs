@@ -25,7 +25,7 @@ namespace AutomotiveForumSystem.Services
         public void Delete(int id, User currentUser)
         {
             var postToDelete = this.postRepository.GetById(id);
-            if (!IsUserPostCreator(postToDelete, currentUser) && !IsUserAdmin(currentUser))
+            if (!IsPostCreatedByUser(postToDelete, currentUser) && !IsUserAdmin(currentUser))
             {
                 throw new AuthorizationException("Not admin or post creator!");
             }
@@ -55,14 +55,14 @@ namespace AutomotiveForumSystem.Services
         public Post Update(int id, Post post, User currentUser)
         {
             var postToUpdate = this.postRepository.GetById(id);
-            if (!IsUserPostCreator(postToUpdate, currentUser))
+            if (!IsPostCreatedByUser(postToUpdate, currentUser))
             {
                 throw new AuthorizationException("Not post creator!");
             }
             return this.postRepository.Update(id, postToUpdate);
         }
 
-        private bool IsUserPostCreator(Post post, User currentUser)
+        private bool IsPostCreatedByUser(Post post, User currentUser)
         {
             return currentUser.Posts.Any(p => p.Id == post.Id);
         }

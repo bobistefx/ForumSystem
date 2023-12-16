@@ -12,7 +12,7 @@ namespace AutomotiveForumSystem.Models
 
         public DateTime CreateDate { get; set; }
 
-        public List<Comment> Comments { get; set; } = new List<Comment>();
+        public IList<Comment> Comments { get; set; }
 
         public int Likes { get; set; }
     }
