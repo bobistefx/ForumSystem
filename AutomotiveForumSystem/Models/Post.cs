@@ -21,6 +21,12 @@ namespace AutomotiveForumSystem.Models
         public string Content { get; set; } = "";
 
         [Required]
+        public int UserID { get; set; }
+
+        [ForeignKey(nameof(UserID))]
+        public User User { get; set; }
+
+        [Required]
         public DateTime CreateDate { get; set; }
 
         public List<Comment> Comments { get; set; } = new List<Comment>();
