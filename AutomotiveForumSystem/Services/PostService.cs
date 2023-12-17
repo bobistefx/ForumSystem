@@ -1,4 +1,5 @@
 ﻿using AutomotiveForumSystem.Exceptions;
+using AutomotiveForumSystem.Helpers;
 using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.PostDtos;
 using AutomotiveForumSystem.Repositories;
@@ -9,9 +10,12 @@ namespace AutomotiveForumSystem.Services
     public class PostService : IPostService
     {
         private readonly PostRepository postRepository;
-        public PostService(PostRepository postRepository)
+        private readonly PostModelMapper postModelMapper;
+
+        public PostService(PostRepository postRepository, PostModelMapper postModelMapper)
         {
             this.postRepository = postRepository;
+            this.postModelMapper = postModelMapper;
         }
         public Post Create(Post post, User currentUser)
         {
@@ -19,7 +23,7 @@ namespace AutomotiveForumSystem.Services
             {
                 throw new BlockedUserException($"User {currentUser.UserName} is currently blocked");
             }
-            postRepository.Create(post, currentUser);
+            this.postRepository.Create(post, currentUser);
             return post;
         }
 
@@ -35,12 +39,12 @@ namespace AutomotiveForumSystem.Services
 
         public IList<PostResponseDto> GetAllPosts()
         {
-            return this.postRepository.GetAllPosts();
+            return this.postModelMapper.MapPostsToResponseDtos(this.postRepository.GetAllPosts());
         }
 
         public IList<PostResponseDto> GetPostsByCategory(string categoryName)
         {
-            return this.postRepository.GetPostByCategory(categoryName);
+            return this.postModelMapper.MapPostsToResponseDtos(this.postRepository.GetPostByCategory(categoryName));
         }
 
         public Post GetPostById(int id)
@@ -50,7 +54,7 @@ namespace AutomotiveForumSystem.Services
 
         public IList<PostResponseDto> GetPostsByUser(int userId, PostQueryParameters postQueryParameters)
         {
-            return this.postRepository.GetPostsByUser(userId, postQueryParameters);
+            return this.postModelMapper.MapPostsToResponseDtos(this.postRepository.GetPostsByUser(userId, postQueryParameters));
         }
 
         public Post Update(int id, Post post, User currentUser)

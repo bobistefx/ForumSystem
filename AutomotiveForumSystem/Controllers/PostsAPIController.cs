@@ -32,6 +32,35 @@ namespace AutomotiveForumSystem.Controllers
             return Ok(this.postService.GetAllPosts());
         }
 
+        // GET: api/posts
+        [HttpGet]
+        public IActionResult Get([FromQuery] int userId, [FromQuery] PostQueryParameters postQueryParameters)
+        {
+            try
+            {
+                var posts = this.postService.GetPostsByUser(userId, postQueryParameters);
+                return Ok(posts);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        // GET: api/posts/postId
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            try
+            {
+                return Ok(this.postService.GetPostById(id));
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
         // GET: api/posts/categoryName
         [HttpGet("{categoryName}")]
         public IActionResult Get(string categoryName)
@@ -47,32 +76,28 @@ namespace AutomotiveForumSystem.Controllers
             }
         }
 
-        // GET: api/posts/userId
-        [HttpGet("{id}")]
-        public IActionResult Get(int userId, [FromQuery] PostQueryParameters postQueryParameters)
-        {
-            try
-            {
-                var posts = this.postService.GetPostsByUser(userId, postQueryParameters);
-                return Ok(posts);
-            }
-            catch (EntityNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
-
         // POST: api/posts
         [HttpPost]
         public IActionResult CreatePost([FromHeader]string credentials, [FromBody] PostModelCreate model)
         {
-            var currentUser = this.authManager.TryGetUser(credentials);
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                var currentUser = this.authManager.TryGetUser(credentials);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var createdPost = this.postService.Create(postModelMapper.Map(model), currentUser);
+                return StatusCode(StatusCodes.Status201Created, createdPost);
             }
-            var createdPost = this.postService.Create(postModelMapper.Map(model), currentUser);
-            return StatusCode(StatusCodes.Status201Created, createdPost);
+            catch (BlockedUserException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (AuthenticationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // PUT: api/posts/{id}
@@ -90,6 +115,10 @@ namespace AutomotiveForumSystem.Controllers
                 return NotFound(ex.Message);
             }
             catch (AuthorizationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (AuthenticationException ex)
             {
                 return BadRequest(ex.Message);
             }

@@ -24,5 +24,33 @@ namespace AutomotiveForumSystem.Helpers
             };
             return post;
         }
+
+        public List<PostResponseDto> MapPostsToResponseDtos(IList<Post> postsToReturn)
+        {
+            return postsToReturn
+                .Select(p => new PostResponseDto()
+                {
+                    Category = p.Category.Name,
+                    Title = p.Title,
+                    Content = p.Content,
+                    CreateDate = p.CreateDate,
+                    Comments = p.Comments,
+                    Likes = p.Likes
+                })
+                .ToList();
+        }
+
+        public PostResponseDto MapPostToResponseDto(Post post)
+        {
+            return new PostResponseDto()
+            {
+                Category = post.Category.Name,
+                Title = post.Title,
+                Content = post.Content,
+                CreateDate = post.CreateDate,
+                Comments = post.Comments,
+                Likes = post.Likes
+            };
+        }
     }
 }

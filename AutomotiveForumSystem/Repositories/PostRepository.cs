@@ -28,26 +28,18 @@ namespace AutomotiveForumSystem.Repositories
             this.applicationContext.Posts.Remove(post);
         }
 
-        public IList<PostResponseDto> GetAllPosts()
+        public IList<Post> GetAllPosts()
         {
             IQueryable<Post> postsToReturn = applicationContext.Posts;
-            return MapPostsToResponseDtos(postsToReturn);
+            return postsToReturn.ToList();
         }
 
-        public IList<PostResponseDto> GetPostByCategory(string categoryName)
+        public IList<Post> GetPostByCategory(string categoryName)
         {
             var postsToReturn = this.applicationContext.Posts.AsQueryable()
                 .Where(p => p.Category.Name == categoryName);
 
-            IList<PostResponseDto> result = postsToReturn
-                .Select(p => new PostResponseDto()
-                {
-                    Category = p.Category.Name,
-                    Title = p.Title,
-                    Content = p.Content,
-                })
-                .ToList();
-            return result;
+            return postsToReturn.ToList();
         }
 
         public Post GetPostById(int id)
@@ -56,7 +48,7 @@ namespace AutomotiveForumSystem.Repositories
                 ?? throw new EntityNotFoundException($"Post with ID: {id} not found");
         }
 
-        public IList<PostResponseDto> GetPostsByUser(int userId, PostQueryParameters postQueryParameters)
+        public IList<Post> GetPostsByUser(int userId, PostQueryParameters postQueryParameters)
         {
             var user = this.applicationContext.Users.FirstOrDefault(u => u.Id == userId)
                 ?? throw new EntityNotFoundException($"User with ID: {userId} doesn't exist");
@@ -71,8 +63,7 @@ namespace AutomotiveForumSystem.Repositories
             {
                 postsToReturn = postsToReturn.Where(p => p.Title == postQueryParameters.Title);
             }
-            List<PostResponseDto> result = MapPostsToResponseDtos(postsToReturn);
-            return result;
+            return postsToReturn.ToList();
         }
 
         public bool PostExist(string title)
@@ -91,21 +82,6 @@ namespace AutomotiveForumSystem.Repositories
             applicationContext.SaveChanges();
 
             return postToUpdate;
-        }
-
-        private static List<PostResponseDto> MapPostsToResponseDtos(IQueryable<Post> postsToReturn)
-        {
-            return postsToReturn
-                .Select(p => new PostResponseDto()
-                {
-                    Category = p.Category.Name,
-                    Title = p.Title,
-                    Content = p.Content,
-                    CreateDate = p.CreateDate,
-                    Comments = p.Comments,
-                    Likes = p.Likes
-                })
-                .ToList();
         }
     }
 }
