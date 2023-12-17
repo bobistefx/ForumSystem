@@ -5,6 +5,8 @@ namespace AutomotiveForumSystem.Helpers.Contracts
 {
     public interface IPostModelMapper
     {
-        public Post Map(PostModelCreate model);
+        Post Map(PostModelCreate model);
+        List<PostResponseDto> MapPostsToResponseDtos(IList<Post> postsToReturn);
+        PostResponseDto MapPostToResponseDto(Post post);
     }
 }

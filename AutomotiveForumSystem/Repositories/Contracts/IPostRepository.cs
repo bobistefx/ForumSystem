@@ -6,7 +6,7 @@ namespace AutomotiveForumSystem.Repositories.Contracts
     public interface IPostRepository
     {
         IList<Post> GetAllPosts();
-        IList<Post> GetPostByCategory(string categoryName);
+        IList<Post> GetAll(PostQueryParameters postQueryParameters);
         IList<Post> GetPostsByUser(int userId, PostQueryParameters postQueryParameters);
         bool PostExist(string title);
         Post GetPostById(int id);
