@@ -17,6 +17,7 @@ namespace AutomotiveForumSystem.Repositories
 
         public Post Create(Post post, User currentUser)
         {
+            post.CreateDate = DateTime.Now;
             currentUser.Posts.Add(post);
             this.applicationContext.Posts.Add(post);
             return post;

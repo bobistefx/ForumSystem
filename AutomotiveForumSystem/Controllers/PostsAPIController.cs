@@ -83,11 +83,11 @@ namespace AutomotiveForumSystem.Controllers
             try
             {
                 var currentUser = this.authManager.TryGetUser(credentials);
-                if (!ModelState.IsValid)
+                if (!this.ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
-                var createdPost = this.postService.Create(postModelMapper.Map(model), currentUser);
+                var createdPost = this.postService.Create(this.postModelMapper.Map(model), currentUser);
                 return StatusCode(StatusCodes.Status201Created, createdPost);
             }
             catch (BlockedUserException ex)
