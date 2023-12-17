@@ -1,18 +1,20 @@
 ﻿using AutomotiveForumSystem.Exceptions;
 using AutomotiveForumSystem.Helpers;
+using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.PostDtos;
 using AutomotiveForumSystem.Repositories;
+using AutomotiveForumSystem.Repositories.Contracts;
 using AutomotiveForumSystem.Services.Contracts;
 
 namespace AutomotiveForumSystem.Services
 {
     public class PostService : IPostService
     {
-        private readonly PostRepository postRepository;
-        private readonly PostModelMapper postModelMapper;
+        private readonly IPostRepository postRepository;
+        private readonly IPostModelMapper postModelMapper;
 
-        public PostService(PostRepository postRepository, PostModelMapper postModelMapper)
+        public PostService(IPostRepository postRepository, IPostModelMapper postModelMapper)
         {
             this.postRepository = postRepository;
             this.postModelMapper = postModelMapper;
@@ -42,9 +44,9 @@ namespace AutomotiveForumSystem.Services
             return this.postModelMapper.MapPostsToResponseDtos(this.postRepository.GetAllPosts());
         }
 
-        public IList<PostResponseDto> GetPostsByCategory(string categoryName)
+        public IList<PostResponseDto> GetAll(PostQueryParameters postQueryParameters)
         {
-            return this.postModelMapper.MapPostsToResponseDtos(this.postRepository.GetPostByCategory(categoryName));
+            return this.postModelMapper.MapPostsToResponseDtos(this.postRepository.GetAll(postQueryParameters));
         }
 
         public Post GetPostById(int id)

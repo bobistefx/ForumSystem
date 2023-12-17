@@ -3,6 +3,7 @@ using AutomotiveForumSystem.Exceptions;
 using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.PostDtos;
 using AutomotiveForumSystem.Repositories.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutomotiveForumSystem.Repositories
 {
@@ -32,15 +33,23 @@ namespace AutomotiveForumSystem.Repositories
         public IList<Post> GetAllPosts()
         {
             IQueryable<Post> postsToReturn = applicationContext.Posts;
-            return postsToReturn.ToList();
+            return postsToReturn.Include(p => p.Category).ToList();
         }
 
-        public IList<Post> GetPostByCategory(string categoryName)
+        public IList<Post> GetAll(PostQueryParameters postQueryParameters)
         {
-            var postsToReturn = this.applicationContext.Posts.AsQueryable()
-                .Where(p => p.Category.Name == categoryName);
+            var postsToReturn = this.applicationContext.Posts.AsQueryable();
 
-            return postsToReturn.ToList();
+            if (!string.IsNullOrEmpty(postQueryParameters.Category))
+            {
+                postsToReturn = postsToReturn.Where(p => p.Category.Name == postQueryParameters.Category);
+            }
+            if (!string.IsNullOrEmpty(postQueryParameters.Title))
+            {
+                postsToReturn = postsToReturn.Where(p => p.Title == postQueryParameters.Title);
+            }
+
+            return postsToReturn.Include(p => p.Category).ToList();
         }
 
         public Post GetPostById(int id)
@@ -51,10 +60,8 @@ namespace AutomotiveForumSystem.Repositories
 
         public IList<Post> GetPostsByUser(int userId, PostQueryParameters postQueryParameters)
         {
-            var user = this.applicationContext.Users.FirstOrDefault(u => u.Id == userId)
-                ?? throw new EntityNotFoundException($"User with ID: {userId} doesn't exist");
-
-            var postsToReturn = user.Posts.AsQueryable();
+            var postsToReturn = applicationContext.Posts.AsQueryable()
+                .Where(p=> p.UserId == userId);
 
             if (!string.IsNullOrEmpty(postQueryParameters.Category))
             {
@@ -64,7 +71,7 @@ namespace AutomotiveForumSystem.Repositories
             {
                 postsToReturn = postsToReturn.Where(p => p.Title == postQueryParameters.Title);
             }
-            return postsToReturn.ToList();
+            return postsToReturn.Include(p => p.Category).ToList();
         }
 
         public bool PostExist(string title)

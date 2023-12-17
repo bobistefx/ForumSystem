@@ -27,18 +27,26 @@ namespace AutomotiveForumSystem.Controllers
 
         // GET: api/posts
         [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok(this.postService.GetAllPosts());
-        }
-
-        // GET: api/posts
-        [HttpGet]
-        public IActionResult Get([FromQuery] int userId, [FromQuery] PostQueryParameters postQueryParameters)
+        public IActionResult Get([FromQuery] PostQueryParameters postQueryParameters)
         {
             try
             {
-                var posts = this.postService.GetPostsByUser(userId, postQueryParameters);
+                var posts = this.postService.GetAll(postQueryParameters);
+                return Ok(posts);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        // GET: api/posts/users/id
+        [HttpGet("users/{id}")]
+        public IActionResult GetPostsByUserId(int id, [FromQuery] PostQueryParameters postQueryParameters)
+        {
+            try
+            {
+                var posts = this.postService.GetPostsByUser(id, postQueryParameters);
                 return Ok(posts);
             }
             catch (EntityNotFoundException ex)
@@ -54,21 +62,6 @@ namespace AutomotiveForumSystem.Controllers
             try
             {
                 return Ok(this.postService.GetPostById(id));
-            }
-            catch (EntityNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
-
-        // GET: api/posts/categoryName
-        [HttpGet("{categoryName}")]
-        public IActionResult Get(string categoryName)
-        {
-            try
-            {
-                var posts = this.postService.GetPostsByCategory(categoryName);
-                return Ok(posts);
             }
             catch (EntityNotFoundException ex)
             {
