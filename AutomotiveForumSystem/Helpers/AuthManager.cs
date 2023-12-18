@@ -1,7 +1,6 @@
 ﻿using AutomotiveForumSystem.Exceptions;
 using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models;
-using AutomotiveForumSystem.Models.Contracts;
 using AutomotiveForumSystem.Services.Contracts;
 
 namespace AutomotiveForumSystem.Helpers
@@ -13,7 +12,7 @@ namespace AutomotiveForumSystem.Helpers
         public AuthManager(IUsersService usersService)
         {
             this.usersService = usersService;
-        }
+        }       
 
         public User TryGetUser(string credentials)
         {
@@ -29,7 +28,7 @@ namespace AutomotiveForumSystem.Helpers
                 throw new AuthenticationException("No such user");
             }
 
-            throw new NotImplementedException();
+            return user;
         }
     }
 }

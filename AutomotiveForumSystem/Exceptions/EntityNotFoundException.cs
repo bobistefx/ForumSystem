@@ -1,6 +1,6 @@
 ﻿namespace AutomotiveForumSystem.Exceptions
 {
-    public class EntityNotFoundException : Exception
+    public class EntityNotFoundException : ApplicationException
     {
         public EntityNotFoundException(string? message) 
             : base(message)

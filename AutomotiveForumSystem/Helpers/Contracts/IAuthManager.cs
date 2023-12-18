@@ -1,5 +1,4 @@
 ﻿using AutomotiveForumSystem.Models;
-using AutomotiveForumSystem.Models.Contracts;
 
 namespace AutomotiveForumSystem.Helpers.Contracts
 {

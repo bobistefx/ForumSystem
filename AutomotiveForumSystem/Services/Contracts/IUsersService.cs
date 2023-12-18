@@ -1,15 +1,16 @@
-﻿using AutomotiveForumSystem.Models.Contracts;
+﻿using AutomotiveForumSystem.Models;
+using AutomotiveForumSystem.Models.DTOs;
 
 namespace AutomotiveForumSystem.Services.Contracts
 {
     public interface IUsersService
     {
-        IUser Create(IUser user);
+        User Create(User user);
 
-        IUser GetById(int id);
+        User GetById(int id);
 
-        IUser GetByUsername(string username);
+        User GetByUsername(string username);
 
-        IUser Update();
+        User Update(User user, UserUpdateDTO userDTO);
     }
 }
