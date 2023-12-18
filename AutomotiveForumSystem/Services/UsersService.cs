@@ -1,4 +1,6 @@
-﻿using AutomotiveForumSystem.Models.Contracts;
+﻿using AutomotiveForumSystem.Exceptions;
+using AutomotiveForumSystem.Models;
+using AutomotiveForumSystem.Models.DTOs;
 using AutomotiveForumSystem.Repositories.Contracts;
 using AutomotiveForumSystem.Services.Contracts;
 
@@ -13,24 +15,33 @@ namespace AutomotiveForumSystem.Services
             this.users = users;
         }
         
-        public IUser Create(IUser user)
+        public User Create(User user)
         {
+            this.EnsureUsernameIsUnique(user.UserName);
             return this.users.Create(user);
         }
 
-        public IUser GetById(int id)
+        public User GetById(int id)
         {
             return this.users.GetById(id);
         }
 
-        public IUser GetByUsername(string username)
+        public User GetByUsername(string username)
         {
             return this.users.GetByUsername(username);
         }
 
-        public IUser Update()
+        public User Update(User user, UserUpdateDTO userDTO)
         {
-            throw new NotImplementedException();
+            return this.users.Update(user, userDTO);
+        }
+
+        private void EnsureUsernameIsUnique(string username)
+        {
+            if (this.users.UsernameExists(username))
+            {
+                throw new DuplicateEntityException("Username already exists.");
+            }
         }
     }
 }

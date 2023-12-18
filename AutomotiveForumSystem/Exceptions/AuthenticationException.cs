@@ -1,6 +1,6 @@
 ﻿namespace AutomotiveForumSystem.Exceptions
 {
-    public class AuthenticationException : Exception
+    public class AuthenticationException : ApplicationException
     {
         public AuthenticationException(string? message) 
             : base(message)
