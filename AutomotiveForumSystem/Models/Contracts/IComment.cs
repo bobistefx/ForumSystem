@@ -9,6 +9,8 @@ namespace AutomotiveForumSystem.Models.Contracts
         string Content { get; set; }
         int UserID { get; set; }
         User User { get; set; }
+        int PostID { get; set; }
+        Post Post { get; set; }
         DateTime CreateDate { get; set; }
         IList<Comment> Replies { get; set; }
         bool IsDeleted { get; set; }

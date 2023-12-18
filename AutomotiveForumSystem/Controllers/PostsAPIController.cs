@@ -71,7 +71,7 @@ namespace AutomotiveForumSystem.Controllers
 
         // POST: api/posts
         [HttpPost]
-        public IActionResult CreatePost([FromHeader]string credentials, [FromBody] PostModelCreate model)
+        public IActionResult CreatePost([FromHeader]string credentials, [FromBody] PostCreateDTO model)
         {
             try
             {

@@ -26,7 +26,7 @@ namespace AutomotiveForumSystem.Data
                 new User()
                 {
                     Id = 1,
-                    UserName = "admin",
+                    UserName = "jonkata",
                     FirstName = "John",
                     LastName = "Smith",
                     Email = "john@mail.com",
@@ -37,7 +37,7 @@ namespace AutomotiveForumSystem.Data
                 new User()
                 {
                     Id = 2,
-                    UserName = "user",
+                    UserName = "stevie",
                     FirstName = "Steven",
                     LastName = "Solberg",
                     Email = "steven@mail.com",
@@ -48,7 +48,7 @@ namespace AutomotiveForumSystem.Data
                 new User()
                 {
                     Id = 3,
-                    UserName = "user",
+                    UserName = "vanko_54",
                     FirstName = "Ivan",
                     LastName = "Ivanov",
                     Email = "ivan@mail.com",
@@ -97,9 +97,23 @@ namespace AutomotiveForumSystem.Data
                 {
                     Id = 1,
                     UserID = 1,
+                    PostID = 1,
+                    CreateDate = DateTime.Now,
                     Content = "Awesome. I will follow your tutorial to tune my supra."
                 }
             };
+
+            modelBuilder.Entity<Comment>()
+                .HasOne(r => r.User)
+                .WithMany(u => u.Comments)
+                .HasForeignKey(r => r.UserID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Comment>()
+                .HasOne(r => r.Post)
+                .WithMany(b => b.Comments)
+                .HasForeignKey(r => r.PostID)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Comment>().HasData(comments);
         }

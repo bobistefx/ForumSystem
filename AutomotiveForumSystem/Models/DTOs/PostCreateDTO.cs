@@ -2,7 +2,7 @@
 
 namespace AutomotiveForumSystem.Models.PostDtos
 {
-    public class PostModelCreate
+    public class PostCreateDTO
     {
         public string? CategoryName { get; set; }
 

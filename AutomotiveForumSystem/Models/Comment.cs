@@ -19,6 +19,12 @@ namespace AutomotiveForumSystem.Models
         public User User { get; set; }
 
         [Required]
+        public int PostID { get; set; }
+
+        [ForeignKey(nameof(PostID))]
+        public Post Post { get; set; }
+
+        [Required]
         public DateTime CreateDate { get; set; }
 
         public IList<Comment> Replies { get; set; } = new List<Comment>();

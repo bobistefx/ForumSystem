@@ -14,7 +14,7 @@ namespace AutomotiveForumSystem.Helpers
             this.applicationContext = applicationContext;
         }
 
-        public Post Map(PostModelCreate model)
+        public Post Map(PostCreateDTO model)
         {
             var post = new Post
             {
