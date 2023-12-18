@@ -1,4 +1,4 @@
-﻿using AutomotiveForumSystem.Models;
+using AutomotiveForumSystem.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AutomotiveForumSystem.Data
@@ -10,7 +10,6 @@ namespace AutomotiveForumSystem.Data
         {
         }
 
-        public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Post> Posts { get; set; }
@@ -19,24 +18,6 @@ namespace AutomotiveForumSystem.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            // Seed roles
-
-            List<Role> roles = new List<Role>()
-            {
-                new Role()
-                {
-                    Id = 1,
-                    Name = "admin",
-                },
-                new Role()
-                {
-                    Id = 2,
-                    Name = "user",
-                }
-            };
-
-            modelBuilder.Entity<Role>().HasData(roles);
 
             // Seed users
 
@@ -51,7 +32,7 @@ namespace AutomotiveForumSystem.Data
                     Email = "john@mail.com",
                     Password = "1234",
                     PhoneNumber = "0888 102 030",
-                    RoleID = 1,
+                    IsAdmin = true,
                 },
                 new User()
                 {
@@ -62,7 +43,7 @@ namespace AutomotiveForumSystem.Data
                     Email = "steven@mail.com",
                     Password = "1020",
                     PhoneNumber = null,
-                    RoleID = 2,
+                    IsAdmin = false,
                 },
                 new User()
                 {
@@ -73,7 +54,7 @@ namespace AutomotiveForumSystem.Data
                     Email = "ivan@mail.com",
                     Password = "3344",
                     PhoneNumber = null,
-                    RoleID = 2,
+                    IsAdmin = false,
                 }
             };
 
@@ -115,8 +96,8 @@ namespace AutomotiveForumSystem.Data
                 new Comment()
                 {
                     Id = 1,
-                    Content = "Awesome. I will follow your tutorial to tune my supra.",
                     UserID = 1,
+                    Content = "Awesome. I will follow your tutorial to tune my supra."
                 }
             };
 
