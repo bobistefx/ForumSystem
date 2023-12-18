@@ -99,7 +99,7 @@ namespace AutomotiveForumSystem.Data
                 {
                     Id = 1,
                     CategoryID = 1,
-                    UserId = 1,
+                    UserID = 1,
                     Title = "I got my supra 1200 HP. Here is how i did that...",
                     Content = "Step by step tutorial.",
                     CreateDate = DateTime.Now,

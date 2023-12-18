@@ -73,7 +73,7 @@ namespace AutomotiveForumSystem.Migrations
                     CategoryID = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", maxLength: 8192, nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserID = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Likes = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -88,8 +88,8 @@ namespace AutomotiveForumSystem.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Posts_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Posts_Users_UserID",
+                        column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -102,11 +102,11 @@ namespace AutomotiveForumSystem.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(type: "nvarchar(max)", maxLength: 8192, nullable: false),
+                    UserID = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CommentId = table.Column<int>(type: "int", nullable: true),
-                    PostId = table.Column<int>(type: "int", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    PostId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -122,10 +122,11 @@ namespace AutomotiveForumSystem.Migrations
                         principalTable: "Posts",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Comments_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Comments_Users_UserID",
+                        column: x => x.UserID,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -141,8 +142,8 @@ namespace AutomotiveForumSystem.Migrations
 
             migrationBuilder.InsertData(
                 table: "Comments",
-                columns: new[] { "Id", "CommentId", "Content", "CreateDate", "IsDeleted", "PostId", "UserId" },
-                values: new object[] { 1, null, "Awesome. I will follow your tutorial to tune my supra.", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, null });
+                columns: new[] { "Id", "CommentId", "Content", "CreateDate", "IsDeleted", "PostId", "UserID" },
+                values: new object[] { 1, null, "Awesome. I will follow your tutorial to tune my supra.", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, 0 });
 
             migrationBuilder.InsertData(
                 table: "Roles",
@@ -170,8 +171,8 @@ namespace AutomotiveForumSystem.Migrations
 
             migrationBuilder.InsertData(
                 table: "Posts",
-                columns: new[] { "Id", "CategoryID", "Content", "CreateDate", "IsDeleted", "Likes", "Title", "UserId" },
-                values: new object[] { 1, 1, "Step by step tutorial.", new DateTime(2023, 12, 17, 19, 28, 20, 823, DateTimeKind.Local).AddTicks(9275), false, 0, "I got my supra 1200 HP. Here is how i did that...", 1 });
+                columns: new[] { "Id", "CategoryID", "Content", "CreateDate", "IsDeleted", "Likes", "Title", "UserID" },
+                values: new object[] { 1, 1, "Step by step tutorial.", new DateTime(2023, 12, 18, 9, 42, 8, 879, DateTimeKind.Local).AddTicks(4305), false, 0, "I got my supra 1200 HP. Here is how i did that...", 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_CommentId",
@@ -184,9 +185,9 @@ namespace AutomotiveForumSystem.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_UserId",
+                name: "IX_Comments_UserID",
                 table: "Comments",
-                column: "UserId");
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_CategoryID",
@@ -194,9 +195,9 @@ namespace AutomotiveForumSystem.Migrations
                 column: "CategoryID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_UserId",
+                name: "IX_Posts_UserID",
                 table: "Posts",
-                column: "UserId");
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleID",

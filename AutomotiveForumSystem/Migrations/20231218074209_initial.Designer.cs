@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutomotiveForumSystem.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20231217172821_initial")]
+    [Migration("20231218074209_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -96,7 +96,7 @@ namespace AutomotiveForumSystem.Migrations
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -105,7 +105,7 @@ namespace AutomotiveForumSystem.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Comments");
 
@@ -115,7 +115,8 @@ namespace AutomotiveForumSystem.Migrations
                             Id = 1,
                             Content = "Awesome. I will follow your tutorial to tune my supra.",
                             CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false
+                            IsDeleted = false,
+                            UserID = 0
                         });
                 });
 
@@ -149,14 +150,14 @@ namespace AutomotiveForumSystem.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Posts");
 
@@ -166,11 +167,11 @@ namespace AutomotiveForumSystem.Migrations
                             Id = 1,
                             CategoryID = 1,
                             Content = "Step by step tutorial.",
-                            CreateDate = new DateTime(2023, 12, 17, 19, 28, 20, 823, DateTimeKind.Local).AddTicks(9275),
+                            CreateDate = new DateTime(2023, 12, 18, 9, 42, 8, 879, DateTimeKind.Local).AddTicks(4305),
                             IsDeleted = false,
                             Likes = 0,
                             Title = "I got my supra 1200 HP. Here is how i did that...",
-                            UserId = 1
+                            UserID = 1
                         });
                 });
 
@@ -307,9 +308,13 @@ namespace AutomotiveForumSystem.Migrations
                         .WithMany("Comments")
                         .HasForeignKey("PostId");
 
-                    b.HasOne("AutomotiveForumSystem.Models.User", null)
+                    b.HasOne("AutomotiveForumSystem.Models.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AutomotiveForumSystem.Models.Post", b =>
@@ -322,7 +327,7 @@ namespace AutomotiveForumSystem.Migrations
 
                     b.HasOne("AutomotiveForumSystem.Models.User", "User")
                         .WithMany("Posts")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
