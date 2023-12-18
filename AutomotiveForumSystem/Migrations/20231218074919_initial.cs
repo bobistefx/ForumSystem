@@ -141,11 +141,6 @@ namespace AutomotiveForumSystem.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Comments",
-                columns: new[] { "Id", "CommentId", "Content", "CreateDate", "IsDeleted", "PostId", "UserID" },
-                values: new object[] { 1, null, "Awesome. I will follow your tutorial to tune my supra.", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, 0 });
-
-            migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "IsDeleted", "Name" },
                 values: new object[,]
@@ -170,9 +165,14 @@ namespace AutomotiveForumSystem.Migrations
                 values: new object[] { 3, "ivan@mail.com", "Ivan", false, false, "Ivanov", "3344", null, 2, "user" });
 
             migrationBuilder.InsertData(
+                table: "Comments",
+                columns: new[] { "Id", "CommentId", "Content", "CreateDate", "IsDeleted", "PostId", "UserID" },
+                values: new object[] { 1, null, "Awesome. I will follow your tutorial to tune my supra.", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, 1 });
+
+            migrationBuilder.InsertData(
                 table: "Posts",
                 columns: new[] { "Id", "CategoryID", "Content", "CreateDate", "IsDeleted", "Likes", "Title", "UserID" },
-                values: new object[] { 1, 1, "Step by step tutorial.", new DateTime(2023, 12, 18, 9, 42, 8, 879, DateTimeKind.Local).AddTicks(4305), false, 0, "I got my supra 1200 HP. Here is how i did that...", 1 });
+                values: new object[] { 1, 1, "Step by step tutorial.", new DateTime(2023, 12, 18, 9, 49, 19, 446, DateTimeKind.Local).AddTicks(4564), false, 0, "I got my supra 1200 HP. Here is how i did that...", 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_CommentId",

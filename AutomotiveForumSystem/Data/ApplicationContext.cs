@@ -115,7 +115,8 @@ namespace AutomotiveForumSystem.Data
                 new Comment()
                 {
                     Id = 1,
-                    Content = "Awesome. I will follow your tutorial to tune my supra."
+                    Content = "Awesome. I will follow your tutorial to tune my supra.",
+                    UserID = 1,
                 }
             };
 

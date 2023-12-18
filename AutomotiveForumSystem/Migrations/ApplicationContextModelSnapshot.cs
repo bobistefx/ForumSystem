@@ -114,7 +114,7 @@ namespace AutomotiveForumSystem.Migrations
                             Content = "Awesome. I will follow your tutorial to tune my supra.",
                             CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
-                            UserID = 0
+                            UserID = 1
                         });
                 });
 
@@ -165,7 +165,7 @@ namespace AutomotiveForumSystem.Migrations
                             Id = 1,
                             CategoryID = 1,
                             Content = "Step by step tutorial.",
-                            CreateDate = new DateTime(2023, 12, 18, 9, 42, 8, 879, DateTimeKind.Local).AddTicks(4305),
+                            CreateDate = new DateTime(2023, 12, 18, 9, 49, 19, 446, DateTimeKind.Local).AddTicks(4564),
                             IsDeleted = false,
                             Likes = 0,
                             Title = "I got my supra 1200 HP. Here is how i did that...",
