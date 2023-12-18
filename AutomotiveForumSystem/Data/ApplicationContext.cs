@@ -10,7 +10,6 @@ namespace AutomotiveForumSystem.Data
         {
         }
 
-        public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Post> Posts { get; set; }
@@ -19,24 +18,6 @@ namespace AutomotiveForumSystem.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            // Seed roles
-
-            List<Role> roles = new List<Role>()
-            {
-                new Role()
-                {
-                    Id = 1,
-                    Name = "admin",
-                },
-                new Role()
-                {
-                    Id = 2,
-                    Name = "user",
-                }
-            };
-
-            modelBuilder.Entity<Role>().HasData(roles);
 
             // Seed users
 
@@ -99,7 +80,7 @@ namespace AutomotiveForumSystem.Data
                 {
                     Id = 1,
                     CategoryID = 1,
-                    UserId = 1,
+                    UserID = 1,
                     Title = "I got my supra 1200 HP. Here is how i did that...",
                     Content = "Step by step tutorial.",
                     CreateDate = DateTime.Now,
@@ -115,6 +96,7 @@ namespace AutomotiveForumSystem.Data
                 new Comment()
                 {
                     Id = 1,
+                    UserID = 1,
                     Content = "Awesome. I will follow your tutorial to tune my supra."
                 }
             };
