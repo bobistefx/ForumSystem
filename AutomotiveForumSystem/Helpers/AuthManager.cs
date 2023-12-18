@@ -16,19 +16,27 @@ namespace AutomotiveForumSystem.Helpers
 
         public User TryGetUser(string credentials)
         {
-            var credentialsArgs = credentials.Split(":");
-
-            var username = credentialsArgs[0];
-            var password = credentialsArgs[1];
-
-            var user = this.usersService.GetByUsername(username);
-
-            if (user.Password != password)
+            try
             {
-                throw new AuthenticationException("No such user");
-            }
+                var credentialsArgs = credentials.Split(":");
 
-            return user;
+                var username = credentialsArgs[0];
+                var password = credentialsArgs[1];
+
+
+                var user = this.usersService.GetByUsername(username);
+
+                if (user.Password != password)
+                {
+                    throw new ApplicationException();
+                }
+
+                return user;
+            }
+            catch (ApplicationException)
+            {
+                throw new AuthenticationException("Invalid credentials");
+            }
         }
     }
 }

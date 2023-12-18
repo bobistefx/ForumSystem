@@ -17,15 +17,23 @@ namespace AutomotiveForumSystem
 
             builder.Services.AddControllers();
 
+            builder.Services.AddScoped<ICategoriesService, CategoriesService>();
+            builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
+
             builder.Services.AddScoped<IPostService, PostService>();
             builder.Services.AddScoped<IPostRepository, PostRepository>();
 
+            builder.Services.AddScoped<ICategoryModelMapper, CategoryModelMapper>();
             builder.Services.AddScoped<IPostModelMapper, PostModelMapper>();
             builder.Services.AddScoped<IAuthManager, AuthManager>();
 
             builder.Services.AddScoped<IUsersService, UsersService>();
             builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
+            builder.Services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
 
             builder.Services.AddDbContext<ApplicationContext>(options =>
             {
