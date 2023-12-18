@@ -1,6 +1,7 @@
 ﻿using AutomotiveForumSystem.Data;
 using AutomotiveForumSystem.Exceptions;
-using AutomotiveForumSystem.Models.Contracts;
+using AutomotiveForumSystem.Models;
+using AutomotiveForumSystem.Models.DTOs;
 using AutomotiveForumSystem.Repositories.Contracts;
 
 namespace AutomotiveForumSystem.Repositories
@@ -14,7 +15,7 @@ namespace AutomotiveForumSystem.Repositories
             this.context = context;
         }
 
-        public IUser Create(IUser user)
+        public User Create(User user)
         {
             this.context.Add(user);
             this.context.SaveChanges();
@@ -22,21 +23,31 @@ namespace AutomotiveForumSystem.Repositories
             return user;
         }
 
-        public IUser GetById(int id)
+        public User GetById(int id)
         {
             return this.context.Users.FirstOrDefault(u => u.Id == id)
                 ?? throw new EntityNotFoundException($"User with id {id} does not exist.");
         }
 
-        public IUser GetByUsername(string username)
+        public User GetByUsername(string username)
         {
             return this.context.Users.FirstOrDefault(u => u.UserName == username)
                 ?? throw new EntityNotFoundException($"User with username {username} does not exist.");
         }
 
-        public IUser Update()
+        public User Update(User user, UserUpdateDTO userDTO)
         {
-            throw new NotImplementedException();
+            user.FirstName = userDTO.FirstName;
+            user.LastName = userDTO.LastName;
+            user.Email = userDTO.Email;
+            user.PhoneNumber = userDTO.PhoneNumber;
+
+            return user;
+        }
+
+        public bool UsernameExists(string username)
+        {
+            return this.context.Users.FirstOrDefault(u => u.UserName == username) != null;                
         }
     }
 }

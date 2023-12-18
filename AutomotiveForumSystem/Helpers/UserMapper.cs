@@ -1,5 +1,6 @@
 ﻿using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models;
+using AutomotiveForumSystem.Models.DTOs;
 using AutomotiveForumSystem.Models.DTOS;
 
 namespace AutomotiveForumSystem.Helpers
@@ -12,6 +13,18 @@ namespace AutomotiveForumSystem.Helpers
             {
                 UserName = user.Username,
                 Password = user.Password,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber
+            };
+        }
+
+        public UserResponseDTO Map(User user)
+        {
+            return new UserResponseDTO()
+            {
+                UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
