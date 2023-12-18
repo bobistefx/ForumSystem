@@ -1,6 +1,7 @@
 ﻿using AutomotiveForumSystem.Data;
+using AutomotiveForumSystem.Repositories.Contracts;
 
-namespace AutomotiveForumSystem.Repositories.Contracts
+namespace AutomotiveForumSystem.Repositories
 {
     public class CategoriesRepository : ICategoriesRepository
     {

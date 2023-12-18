@@ -12,13 +12,14 @@ namespace AutomotiveForumSystem.Models
         [Required]
         public int CategoryID { get; set; }
 
+        [ForeignKey(nameof(CategoryID))]
         public Category Category { get; set; }
 
         [Required, MinLength(16), MaxLength(64)]
-        public string Title { get; set; } = "";
+        public string Title { get; set; }
 
         [Required, MinLength(32), MaxLength(8192)]
-        public string Content { get; set; } = "";
+        public string Content { get; set; }
 
         [Required]
         public int UserID { get; set; }

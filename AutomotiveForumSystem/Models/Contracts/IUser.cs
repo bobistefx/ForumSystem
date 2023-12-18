@@ -13,10 +13,9 @@ namespace AutomotiveForumSystem.Models.Contracts
         string Email { get; set; }
         string Password { get; set; }
         string? PhoneNumber { get; set; }
-        int RoleID { get; set; }
-        Role Role { get; set; }
         IList<Post> Posts { get; set; }
         IList<Comment> Comments { get; set; }
+        bool IsAdmin { get; set; }
         bool IsBlocked { get; set; }
         bool IsDeleted { get; set; }
     }

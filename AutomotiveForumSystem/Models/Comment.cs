@@ -4,14 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AutomotiveForumSystem.Models
 {
-    // Test comment
     public class Comment : IComment
     {
         [Key]
         public int Id { get; set; }
 
         [Required, MinLength(32), MaxLength(8192)]
-        public string Content { get; set; } = string.Empty;
+        public string Content { get; set; }
 
         [Required]
         public int UserID { get; set; }
