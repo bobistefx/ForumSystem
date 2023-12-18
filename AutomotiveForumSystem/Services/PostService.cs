@@ -71,12 +71,12 @@ namespace AutomotiveForumSystem.Services
 
         private bool IsPostCreatedByUser(Post post, User currentUser)
         {
-            return currentUser.Posts.Any(p => p.Id == post.Id);
+            return post.UserID == currentUser.Id;
         }
 
         private bool IsUserAdmin(User currentUser)
         {
-            return currentUser.Role.Name == "admin";
+            return currentUser.IsAdmin;
         }
     }
 }

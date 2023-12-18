@@ -61,7 +61,7 @@ namespace AutomotiveForumSystem.Repositories
         public IList<Post> GetPostsByUser(int userId, PostQueryParameters postQueryParameters)
         {
             var postsToReturn = applicationContext.Posts.AsQueryable()
-                .Where(p=> p.UserId == userId);
+                .Where(p=> p.UserID == userId);
 
             if (!string.IsNullOrEmpty(postQueryParameters.Category))
             {

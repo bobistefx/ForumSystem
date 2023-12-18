@@ -1,5 +1,6 @@
 ﻿using AutomotiveForumSystem.Models.Contracts;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AutomotiveForumSystem.Models
 {
@@ -25,14 +26,12 @@ namespace AutomotiveForumSystem.Models
 
         public string? PhoneNumber { get; set; }
 
-        [Required]
-        public int RoleID { get; set; }
-
-        public Role Role { get; set; }
-
         public IList<Post> Posts { get; set; } = new List<Post>();
 
         public IList<Comment> Comments { get; set; } = new List<Comment>();
+
+        [Required]
+        public bool IsAdmin { get; set; }
 
         [Required]
         public bool IsBlocked { get; set; }
