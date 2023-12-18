@@ -15,8 +15,8 @@ namespace AutomotiveForumSystem.Models
         [Required]
         public int UserID { get; set; }
 
-        [ForeignKey("UserID")]
-        public virtual User User { get; set; }
+        [ForeignKey(nameof(UserID))]
+        public User User { get; set; }
 
         [Required]
         public DateTime CreateDate { get; set; }
