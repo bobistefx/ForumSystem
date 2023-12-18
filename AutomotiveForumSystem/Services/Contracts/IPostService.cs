@@ -5,9 +5,9 @@ namespace AutomotiveForumSystem.Services.Contracts
 {
     public interface IPostService
     {
-        IList<PostResponseDto> GetAllPosts();
-        IList<PostResponseDto> GetAll(PostQueryParameters postQueryParameters);
-        IList<PostResponseDto> GetPostsByUser(int userId, PostQueryParameters postQueryParameters);
+        IList<Post> GetAllPosts();
+        IList<Post> GetAll(PostQueryParameters postQueryParameters);
+        IList<Post> GetPostsByUser(int userId, PostQueryParameters postQueryParameters);
         Post GetPostById(int id);
         Post Create(Post post, User currentUser);
         Post Update(int id, Post post, User currentUser);

@@ -8,7 +8,6 @@ namespace AutomotiveForumSystem.Repositories.Contracts
         IList<Post> GetAllPosts();
         IList<Post> GetAll(PostQueryParameters postQueryParameters);
         IList<Post> GetPostsByUser(int userId, PostQueryParameters postQueryParameters);
-        bool PostExist(string title);
         Post GetPostById(int id);
         Post Create(Post post, User currentUser);
         Post Update(int id, Post post);

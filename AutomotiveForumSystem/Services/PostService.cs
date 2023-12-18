@@ -12,12 +12,10 @@ namespace AutomotiveForumSystem.Services
     public class PostService : IPostService
     {
         private readonly IPostRepository postRepository;
-        private readonly IPostModelMapper postModelMapper;
 
-        public PostService(IPostRepository postRepository, IPostModelMapper postModelMapper)
+        public PostService(IPostRepository postRepository)
         {
             this.postRepository = postRepository;
-            this.postModelMapper = postModelMapper;
         }
         public Post Create(Post post, User currentUser)
         {
@@ -39,14 +37,14 @@ namespace AutomotiveForumSystem.Services
             this.postRepository.Delete(postToDelete, currentUser);
         }
 
-        public IList<PostResponseDto> GetAllPosts()
+        public IList<Post> GetAllPosts()
         {
-            return this.postModelMapper.MapPostsToResponseDtos(this.postRepository.GetAllPosts());
+            return this.postRepository.GetAllPosts();
         }
 
-        public IList<PostResponseDto> GetAll(PostQueryParameters postQueryParameters)
+        public IList<Post> GetAll(PostQueryParameters postQueryParameters)
         {
-            return this.postModelMapper.MapPostsToResponseDtos(this.postRepository.GetAll(postQueryParameters));
+            return this.postRepository.GetAll(postQueryParameters);
         }
 
         public Post GetPostById(int id)
@@ -54,9 +52,9 @@ namespace AutomotiveForumSystem.Services
             return this.postRepository.GetPostById(id);
         }
 
-        public IList<PostResponseDto> GetPostsByUser(int userId, PostQueryParameters postQueryParameters)
+        public IList<Post> GetPostsByUser(int userId, PostQueryParameters postQueryParameters)
         {
-            return this.postModelMapper.MapPostsToResponseDtos(this.postRepository.GetPostsByUser(userId, postQueryParameters));
+            return this.postRepository.GetPostsByUser(userId, postQueryParameters);
         }
 
         public Post Update(int id, Post post, User currentUser)
@@ -66,7 +64,7 @@ namespace AutomotiveForumSystem.Services
             {
                 throw new AuthorizationException("Not post creator!");
             }
-            return this.postRepository.Update(id, postToUpdate);
+            return this.postRepository.Update(id, post);
         }
 
         private bool IsPostCreatedByUser(Post post, User currentUser)

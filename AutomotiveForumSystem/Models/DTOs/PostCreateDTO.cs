@@ -4,7 +4,7 @@ namespace AutomotiveForumSystem.Models.PostDtos
 {
     public class PostCreateDTO
     {
-        public string? CategoryName { get; set; }
+        public int CategoryID { get; set; }
 
         [Required, MinLength(16), MaxLength(64)]
         public string Title { get; set; } = "";

@@ -32,7 +32,7 @@ namespace AutomotiveForumSystem.Controllers
             try
             {
                 var posts = this.postService.GetAll(postQueryParameters);
-                return Ok(posts);
+                return Ok(postModelMapper.MapPostsToResponseDtos(posts));
             }
             catch (EntityNotFoundException ex)
             {
@@ -47,7 +47,7 @@ namespace AutomotiveForumSystem.Controllers
             try
             {
                 var posts = this.postService.GetPostsByUser(id, postQueryParameters);
-                return Ok(posts);
+                return Ok(postModelMapper.MapPostsToResponseDtos(posts));
             }
             catch (EntityNotFoundException ex)
             {
@@ -55,13 +55,13 @@ namespace AutomotiveForumSystem.Controllers
             }
         }
 
-        // GET: api/posts/postId
+        // GET: api/posts/id
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             try
             {
-                return Ok(this.postService.GetPostById(id));
+                return Ok(postModelMapper.MapPostToResponseDto(this.postService.GetPostById(id)));
             }
             catch (EntityNotFoundException ex)
             {
@@ -81,7 +81,8 @@ namespace AutomotiveForumSystem.Controllers
                     return BadRequest(ModelState);
                 }
                 var createdPost = this.postService.Create(this.postModelMapper.Map(model), currentUser);
-                return StatusCode(StatusCodes.Status201Created, createdPost);
+                var postResponseDto = this.postModelMapper.MapPostToResponseDto(createdPost);
+                return Ok(postResponseDto);
             }
             catch (BlockedUserException ex)
             {
@@ -95,13 +96,13 @@ namespace AutomotiveForumSystem.Controllers
 
         // PUT: api/posts/{id}
         [HttpPut("{id}")]
-        public IActionResult UpdatePost([FromHeader] string credentials, int id, [FromBody] Post post)
+        public IActionResult UpdatePost([FromHeader] string credentials, int id, [FromBody] PostCreateDTO model)
         {
             try
             {
                 var currentUser = this.authManager.TryGetUser(credentials);
-                var postToUpdate = this.postService.Update(id, post, currentUser);
-                return Ok(postToUpdate);
+                var postToUpdate = this.postService.Update(id, this.postModelMapper.Map(model), currentUser);
+                return Ok(postModelMapper.MapPostToResponseDto(postToUpdate));
             }
             catch (EntityNotFoundException ex)
             {

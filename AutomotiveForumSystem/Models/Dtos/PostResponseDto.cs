@@ -4,7 +4,7 @@ namespace AutomotiveForumSystem.Models.PostDtos
 {
     public class PostResponseDto
     {
-        public string Category { get; set; }
+        public string CategoryName { get; set; }
 
         public string Title { get; set; } = "";
 
