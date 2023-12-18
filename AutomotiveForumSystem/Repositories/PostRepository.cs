@@ -45,7 +45,7 @@ namespace AutomotiveForumSystem.Repositories
 
         public IList<Post> GetAll(PostQueryParameters postQueryParameters)
         {
-            var postsToReturn = this.applicationContext.Posts.Where(p => !p.IsDeleted).AsQueryable();
+            var postsToReturn = this.applicationContext.Posts.Include(p => p.Category).Where(p => !p.IsDeleted).AsQueryable();
 
             if (!string.IsNullOrEmpty(postQueryParameters.Category))
             {
@@ -56,7 +56,7 @@ namespace AutomotiveForumSystem.Repositories
                 postsToReturn = postsToReturn.Where(p => p.Title == postQueryParameters.Title);
             }
 
-            return postsToReturn.Include(p => p.Category).ToList();
+            return postsToReturn.ToList();
         }
 
         public Post GetPostById(int id)
@@ -68,7 +68,7 @@ namespace AutomotiveForumSystem.Repositories
         public IList<Post> GetPostsByUser(int userId, PostQueryParameters postQueryParameters)
         {
             var postsToReturn = applicationContext.Posts.AsQueryable()
-                .Where(p=> p.UserID == userId && !p.IsDeleted);
+                .Where(p => p.UserID == userId && !p.IsDeleted);
 
             if (!string.IsNullOrEmpty(postQueryParameters.Category))
             {
@@ -81,16 +81,21 @@ namespace AutomotiveForumSystem.Repositories
             return postsToReturn.Include(p => p.Category).ToList();
         }
 
-        public Post Update(int id, Post post)
+        public Post Update(int id, Post updatedPost)
         {
-            var postToUpdate = applicationContext.Posts.Include(p => p.Category).FirstOrDefault(p => p.Id == id && !p.IsDeleted)
+            var postToUpdate = applicationContext.Posts.FirstOrDefault(p => p.Id == id && !p.IsDeleted)
                 ?? throw new EntityNotFoundException($"Post with ID: {id} not found");
 
-            postToUpdate.Title = post.Title;
-            postToUpdate.Content = post.Content;
-            postToUpdate.CategoryID = post.CategoryID;
+            postToUpdate.Title = updatedPost.Title;
+            postToUpdate.Content = updatedPost.Content;
 
-            applicationContext.Entry(postToUpdate).Reference(p => p.Category).Load();
+            if (postToUpdate.CategoryID != updatedPost.CategoryID)
+            {
+                var newCategory = applicationContext.Categories.FirstOrDefault(c => c.Id == updatedPost.CategoryID)
+                    ?? throw new EntityNotFoundException($"Category with ID {updatedPost.CategoryID} not found");
+                postToUpdate.CategoryID = updatedPost.CategoryID;
+                applicationContext.Entry(postToUpdate).Reference(p => p.Category).Load();
+            }
 
             applicationContext.SaveChanges();
 

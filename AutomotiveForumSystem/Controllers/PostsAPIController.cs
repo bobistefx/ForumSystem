@@ -94,7 +94,7 @@ namespace AutomotiveForumSystem.Controllers
             }
         }
 
-        // PUT: api/posts/{id}
+        // PUT: api/posts/id
         [HttpPut("{id}")]
         public IActionResult UpdatePost([FromHeader] string credentials, int id, [FromBody] PostCreateDTO model)
         {
