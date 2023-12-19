@@ -14,6 +14,5 @@
         bool IsAdmin { get; set; }
         bool IsBlocked { get; set; }
         bool IsDeleted { get; set; }
-        bool IsAdmin { get; set; }
     }
 }
