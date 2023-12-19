@@ -3,6 +3,7 @@ using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models.DTOs;
 using AutomotiveForumSystem.Models.DTOS;
 using AutomotiveForumSystem.Services.Contracts;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutomotiveForumSystem.Controllers
@@ -39,13 +40,14 @@ namespace AutomotiveForumSystem.Controllers
             }
         }
 
+        //PUT domain/api/users
         [HttpPut("")]
-        public IActionResult Update([FromHeader] string credentials, [FromBody] UserUpdateDTO userDTO)
+        public IActionResult UpdateProfileInformation([FromHeader] string credentials, [FromBody] UserUpdateProfileInformationDTO userDTO)
         {
             try
             {
                 var user = this.authManager.TryGetUser(credentials);
-                var updatedUser = this.usersService.Update(user, userDTO);
+                var updatedUser = this.usersService.UpdateProfileInformation(user, userDTO);
                 var userResponse = this.userMapper.Map(updatedUser);
 
                 return Ok(userResponse);
@@ -54,6 +56,48 @@ namespace AutomotiveForumSystem.Controllers
             {
                 return Unauthorized(e.Message);
             }
+            catch (UserBlockedException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (EntityNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
         }
+
+        [HttpPut("/admin/{id}")]
+        public IActionResult UpdateAccountStatus([FromRoute]int id, [FromHeader] string credentials, UserUpdateAccountStatusDTO userDTO)
+        {
+            try
+            {
+                var requestingUser = this.authManager.TryGetUser(credentials);
+                var userToUpdate = this.usersService.GetById(id);
+                this.usersService.UpdateAccountStatus(requestingUser, userToUpdate, userDTO);
+                var userResponse = this.userMapper.Map(userToUpdate);
+
+                return Ok(userResponse);
+            }
+            catch (AuthenticationException e)
+            {
+                return Unauthorized(e.Message);
+            }
+            catch (UserBlockedException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (UserNotBlockedException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (EntityNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+        
+
+        //[HttpDelete("")]
+        //public IActionResult Delete([FromRoute] int id, [FromHeader] string credentials)
     }
 }

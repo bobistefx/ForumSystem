@@ -2,9 +2,6 @@
 {
     public class EntityNotFoundException : ApplicationException
     {
-        public EntityNotFoundException(string? message) 
-            : base(message)
-        {
-        }
+        public EntityNotFoundException(string? message) : base(message) { }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using AutomotiveForumSystem.Data;
-using AutomotiveForumSystem.Exceptions;
 using AutomotiveForumSystem.Models;
+using AutomotiveForumSystem.Exceptions;
 using AutomotiveForumSystem.Models.DTOs;
 using AutomotiveForumSystem.Repositories.Contracts;
 
@@ -13,7 +13,7 @@ namespace AutomotiveForumSystem.Repositories
         public UsersRepository(ApplicationContext context)
         {
             this.context = context;
-        }
+        }        
 
         public User Create(User user)
         {
@@ -21,6 +21,11 @@ namespace AutomotiveForumSystem.Repositories
             this.context.SaveChanges();
 
             return user;
+        }
+
+        public List<User> GetAll()
+        {
+            return this.context.Users.ToList();
         }
 
         public User GetById(int id)
@@ -35,7 +40,7 @@ namespace AutomotiveForumSystem.Repositories
                 ?? throw new EntityNotFoundException($"User with username {username} does not exist.");
         }
 
-        public User Update(User user, UserUpdateDTO userDTO)
+        public User UpdateProfileInformation(User user, UserUpdateProfileInformationDTO userDTO)
         {
             user.FirstName = userDTO.FirstName;
             user.LastName = userDTO.LastName;
@@ -45,9 +50,10 @@ namespace AutomotiveForumSystem.Repositories
             return user;
         }
 
-        public bool UsernameExists(string username)
+        public User UpdateAccountStatus(User user, UserUpdateAccountStatusDTO userDTO)
         {
-            return this.context.Users.FirstOrDefault(u => u.UserName == username) != null;                
+            user.IsBlocked = userDTO.IsBlocked;
+            return user;
         }
     }
 }

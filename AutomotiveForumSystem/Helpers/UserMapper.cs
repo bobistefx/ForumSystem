@@ -1,7 +1,7 @@
-﻿using AutomotiveForumSystem.Helpers.Contracts;
-using AutomotiveForumSystem.Models;
+﻿using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.DTOs;
 using AutomotiveForumSystem.Models.DTOS;
+using AutomotiveForumSystem.Helpers.Contracts;
 
 namespace AutomotiveForumSystem.Helpers
 {

@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-
-namespace AutomotiveForumSystem.Models.Contracts
+﻿namespace AutomotiveForumSystem.Models.Contracts
 {
     public interface IUser
     {
@@ -18,5 +14,6 @@ namespace AutomotiveForumSystem.Models.Contracts
         bool IsAdmin { get; set; }
         bool IsBlocked { get; set; }
         bool IsDeleted { get; set; }
+        bool IsAdmin { get; set; }
     }
 }
