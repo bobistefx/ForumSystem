@@ -38,7 +38,5 @@ namespace AutomotiveForumSystem.Models
 
         [Required]
         public bool IsDeleted { get; set; }
-
-        public bool IsAdmin { get; set; }
     }
 }
