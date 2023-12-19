@@ -84,7 +84,7 @@ namespace AutomotiveForumSystem.Controllers
                 var postResponseDto = this.postModelMapper.MapPostToResponseDto(createdPost);
                 return Ok(postResponseDto);
             }
-            catch (BlockedUserException ex)
+            catch (UserBlockedException ex)
             {
                 return BadRequest(ex.Message);
             }

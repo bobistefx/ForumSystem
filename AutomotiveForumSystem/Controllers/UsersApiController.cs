@@ -10,7 +10,7 @@ namespace AutomotiveForumSystem.Controllers
 {
     [ApiController]
     [Route("api/users")]
-    public class UsersAPIController : Controller
+    public class UsersAPIController : ControllerBase
     {
         private readonly IUsersService usersService;
         private readonly IUserMapper userMapper;
