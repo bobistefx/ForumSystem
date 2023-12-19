@@ -2,6 +2,7 @@
 {
     public class CategoryQueryParameters
     {
-        public string? Category { get; set; }
+        public string? Name { get; set; }
+        public string? SortOrder { get; set; }
     }
 }

@@ -20,15 +20,20 @@ namespace AutomotiveForumSystem
             builder.Services.AddScoped<ICategoriesService, CategoriesService>();
             builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
 
+            builder.Services.AddScoped<ICommentsService, CommentsService>();
+            builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
+
             builder.Services.AddScoped<IPostService, PostService>();
             builder.Services.AddScoped<IPostRepository, PostRepository>();
 
-            builder.Services.AddScoped<ICategoryModelMapper, CategoryModelMapper>();
-            builder.Services.AddScoped<IPostModelMapper, PostModelMapper>();
-            builder.Services.AddScoped<IAuthManager, AuthManager>();
-
             builder.Services.AddScoped<IUsersService, UsersService>();
             builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+
+            builder.Services.AddScoped<ICategoryModelMapper, CategoryModelMapper>();
+            builder.Services.AddScoped<ICommentModelMapper, CommentModelMapper>();
+            builder.Services.AddScoped<IPostModelMapper, PostModelMapper>();
+            builder.Services.AddScoped<IAuthManager, AuthManager>();
+            builder.Services.AddScoped<IUserMapper, UserMapper>();
 
             builder.Services.AddControllers().AddNewtonsoftJson(options =>
             {
@@ -39,7 +44,7 @@ namespace AutomotiveForumSystem
             {
                 // A connection string for establishing a connection to the locally installed SQL Server.
                 // Set serverName to your local instance; databaseName is the name of the database
-                string connectionString = @"Server=DESKTOP-P2N7VNG\SQLEXPRESS;Database=AutomotiveForum;Trusted_Connection=True;";
+                string connectionString = @"Server=localhost\SQLEXPRESS;Database=AutomotiveForum;Trusted_Connection=True;";
 
                 // Configure the application to use the locally installed SQL Server.
                 options.UseSqlServer(connectionString);
