@@ -11,6 +11,8 @@ namespace AutomotiveForumSystem.Services.Contracts
 
         User GetByUsername(string username);
 
-        User Update(User user, UserUpdateDTO userDTO);
+        User UpdateProfileInformation(User user, UserUpdateProfileInformationDTO userDTO);
+
+        User UpdateAccountStatus(User requestingUser, User userToUpdate, UserUpdateAccountStatusDTO userDTO);
     }
 }

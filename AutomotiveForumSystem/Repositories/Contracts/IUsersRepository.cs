@@ -9,10 +9,12 @@ namespace AutomotiveForumSystem.Repositories.Contracts
 
         User GetById(int id);
 
+        List<User> GetAll();
+
         User GetByUsername(string username);
 
-        User Update(User user, UserUpdateDTO userDTO);
+        User UpdateProfileInformation(User user, UserUpdateProfileInformationDTO userDTO);
 
-        bool UsernameExists(string username);
+        User UpdateAccountStatus(User user, UserUpdateAccountStatusDTO userDTO);
     }
 }

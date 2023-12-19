@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace AutomotiveForumSystem.Models.Contracts
+﻿namespace AutomotiveForumSystem.Models.Contracts
 {
     public interface ICategory
     {

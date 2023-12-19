@@ -1,4 +1,5 @@
 ﻿using AutomotiveForumSystem.Models;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace AutomotiveForumSystem.Data

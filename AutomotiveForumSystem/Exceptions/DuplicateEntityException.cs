@@ -2,9 +2,6 @@
 {
     public class DuplicateEntityException : ApplicationException
     {
-        public DuplicateEntityException(string? message) 
-            : base(message)
-        {
-        }
+        public DuplicateEntityException(string? message) : base(message) { }
     }
 }
