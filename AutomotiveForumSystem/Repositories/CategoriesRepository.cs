@@ -15,9 +15,29 @@ namespace AutomotiveForumSystem.Repositories
             this.applicationContext = applicationContext;
         }
 
-        public IList<Category> GetAll()
+        public IList<Category> GetAll(CategoryQueryParameters categoryQueryParameters)
         {
-            return this.applicationContext.Categories.Where(x => x.IsDeleted == false).ToList();
+            IQueryable<Category> categories = this.applicationContext.Categories
+                .Where(x => x.IsDeleted == false);
+
+            if (!string.IsNullOrEmpty(categoryQueryParameters.Name))
+            {
+                categories = categories.Where(c => c.Name.Contains(categoryQueryParameters.Name));
+            }
+
+            if (!string.IsNullOrEmpty(categoryQueryParameters.SortOrder))
+            {
+                if (categoryQueryParameters.SortOrder == "asc")
+                {
+                    categories = categories.OrderBy(x => x.Name);
+                }
+                else if (categoryQueryParameters.SortOrder == "desc")
+                {
+                    categories = categories.OrderByDescending(x => x.Name);
+                }
+            }
+
+            return categories.ToList();
         }
 
         public Category GetCategoryById(int id)

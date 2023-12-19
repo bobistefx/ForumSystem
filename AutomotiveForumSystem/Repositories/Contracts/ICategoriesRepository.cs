@@ -7,7 +7,7 @@ namespace AutomotiveForumSystem.Repositories.Contracts
 {
     public interface ICategoriesRepository
     {
-        IList<Category> GetAll();
+        IList<Category> GetAll(CategoryQueryParameters categoryQueryParameters);
         Category GetCategoryById(int id);
         Category CreateCategory(string name);
         Category UpdateCategory(int id, Category category);

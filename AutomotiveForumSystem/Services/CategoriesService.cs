@@ -1,5 +1,6 @@
 ﻿using AutomotiveForumSystem.Exceptions;
 using AutomotiveForumSystem.Models;
+using AutomotiveForumSystem.Models.DTOs;
 using AutomotiveForumSystem.Repositories.Contracts;
 using AutomotiveForumSystem.Services.Contracts;
 
@@ -14,9 +15,9 @@ namespace AutomotiveForumSystem.Services
             this.categoriesRepository = categoriesRepository;
         }
 
-        public IList<Category> GetAll()
+        public IList<Category> GetAll(CategoryQueryParameters categoryQueryParameters)
         {
-            return this.categoriesRepository.GetAll();
+            return this.categoriesRepository.GetAll(categoryQueryParameters);
         }
 
         public Category GetCategoryById(int id)

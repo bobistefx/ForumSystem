@@ -26,7 +26,7 @@ namespace AutomotiveForumSystem.Controllers
         [HttpGet("")]
         public IActionResult GetAll([FromQuery] CategoryQueryParameters categoryQueryParameters)
         {
-            var categoriesToReturn = this.categoriesService.GetAll();
+            var categoriesToReturn = this.categoriesService.GetAll(categoryQueryParameters);
 
             return Ok(this.categoryModelMapper.Map(categoriesToReturn));
         }
