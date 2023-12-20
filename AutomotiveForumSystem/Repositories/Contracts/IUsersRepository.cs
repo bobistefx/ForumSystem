@@ -15,6 +15,6 @@ namespace AutomotiveForumSystem.Repositories.Contracts
 
         User UpdateProfileInformation(User user, UserUpdateProfileInformationDTO userDTO);
 
-        User UpdateAccountStatus(User user, UserUpdateAccountStatusDTO userDTO);
+        User UpdateAccountSettings(User user, UserUpdateAccountStatusDTO userDTO);
     }
 }

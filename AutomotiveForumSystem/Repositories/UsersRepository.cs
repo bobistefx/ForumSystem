@@ -50,9 +50,12 @@ namespace AutomotiveForumSystem.Repositories
             return user;
         }
 
-        public User UpdateAccountStatus(User user, UserUpdateAccountStatusDTO userDTO)
+        public User UpdateAccountSettings(User user, UserUpdateAccountStatusDTO userDTO)
         {
+            user.IsAdmin = userDTO.IsAdmin;
             user.IsBlocked = userDTO.IsBlocked;
+            user.IsDeleted = userDTO.IsDeleted;
+
             return user;
         }
     }

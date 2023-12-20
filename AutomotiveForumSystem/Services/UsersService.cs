@@ -42,12 +42,20 @@ namespace AutomotiveForumSystem.Services
             return this.users.UpdateProfileInformation(user, userDTO);
         }
 
-        public User UpdateAccountStatus(User requestingUser, User userToUpdate, UserUpdateAccountStatusDTO userDTO)
+        public User UpdateAccountSettings(User requestingUser, User userToUpdate, UserUpdateAccountStatusDTO userDTO)
         {
-            if (!requestingUser.IsAdmin) throw new AuthorizationException("Only admins can block users.");
+            if (!requestingUser.IsAdmin) throw new AuthorizationException("You do not have admin permissions.");
             if (userToUpdate.IsDeleted) throw new EntityNotFoundException("Account does not exists.");
 
-            if (userDTO.IsBlocked && userToUpdate.IsBlocked)
+            if (userDTO.IsAdmin && userToUpdate.IsAdmin)
+            {
+                throw new AdminRightsAlreadyGrantedException("User has already been granted with admin rights.");
+            }
+            else if (!userDTO.IsAdmin && !userToUpdate.IsAdmin)
+            {
+                throw new AdminRightsNotCurrentlyGrantedException("Admin rights have not been currently granted to the user.");
+            }
+            else if (userDTO.IsBlocked && userToUpdate.IsBlocked)
             {
                 throw new UserBlockedException("User is already blocked.");
             }
@@ -56,7 +64,7 @@ namespace AutomotiveForumSystem.Services
                 throw new UserNotBlockedException("User is not blocked.");
             }
 
-            return this.users.UpdateAccountStatus(userToUpdate, userDTO);
+            return this.users.UpdateAccountSettings(userToUpdate, userDTO);
         }
 
         private void EnsureUsernameIsUnique(string username)

@@ -73,7 +73,7 @@ namespace AutomotiveForumSystem.Controllers
             {
                 var requestingUser = this.authManager.TryGetUser(credentials);
                 var userToUpdate = this.usersService.GetById(id);
-                this.usersService.UpdateAccountStatus(requestingUser, userToUpdate, userDTO);
+                this.usersService.UpdateAccountSettings(requestingUser, userToUpdate, userDTO);
                 var userResponse = this.userMapper.Map(userToUpdate);
 
                 return Ok(userResponse);
