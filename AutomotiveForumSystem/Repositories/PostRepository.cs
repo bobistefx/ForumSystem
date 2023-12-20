@@ -83,7 +83,7 @@ namespace AutomotiveForumSystem.Repositories
 
         public Post Update(int id, Post updatedPost)
         {
-            var postToUpdate = applicationContext.Posts.FirstOrDefault(p => p.Id == id && !p.IsDeleted)
+            var postToUpdate = applicationContext.Posts.Include(p => p.Category).FirstOrDefault(p => p.Id == id && !p.IsDeleted)
                 ?? throw new EntityNotFoundException($"Post with ID: {id} not found");
 
             postToUpdate.Title = updatedPost.Title;
@@ -94,7 +94,6 @@ namespace AutomotiveForumSystem.Repositories
                 var newCategory = applicationContext.Categories.FirstOrDefault(c => c.Id == updatedPost.CategoryID)
                     ?? throw new EntityNotFoundException($"Category with ID {updatedPost.CategoryID} not found");
                 postToUpdate.CategoryID = updatedPost.CategoryID;
-                applicationContext.Entry(postToUpdate).Reference(p => p.Category).Load();
             }
 
             applicationContext.SaveChanges();
