@@ -83,7 +83,7 @@ namespace AutomotiveForumSystem.Repositories
 
         public Post Update(int id, Post updatedPost)
         {
-            var postToUpdate = applicationContext.Posts.Include(p => p.Category).FirstOrDefault(p => p.Id == id && !p.IsDeleted)
+            var postToUpdate = applicationContext.Posts.FirstOrDefault(p => p.Id == id && !p.IsDeleted)
                 ?? throw new EntityNotFoundException($"Post with ID: {id} not found");
 
             postToUpdate.Title = updatedPost.Title;
