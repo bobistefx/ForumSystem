@@ -17,29 +17,18 @@ namespace AutomotiveForumSystem.Services
         {
             this.postRepository = postRepository;
         }
-        public Post Create(Post post, User currentUser)
+        public Post CreatePost(Post post, User currentUser)
         {
-            if (currentUser.IsBlocked)
-            {
-                throw new UserBlockedException($"User {currentUser.UserName} is currently blocked");
-            }
-            this.postRepository.Create(post, currentUser);
+            ValidateUserNotBlocked(currentUser);
+            this.postRepository.CreatePost(post, currentUser);
             return post;
         }
 
-        public void Delete(int id, User currentUser)
+        public void DeletePost(int id, User currentUser)
         {
             var postToDelete = this.postRepository.GetPostById(id);
-            if (!IsPostCreatedByUser(postToDelete, currentUser) && !IsUserAdmin(currentUser))
-            {
-                throw new AuthorizationException("Not admin or post creator!");
-            }
-            this.postRepository.Delete(postToDelete, currentUser);
-        }
-
-        public IList<Post> GetAllPosts()
-        {
-            return this.postRepository.GetAllPosts();
+            ValidateUserAuthorization(postToDelete, currentUser);
+            this.postRepository.DeletePost(postToDelete, currentUser);
         }
 
         public IList<Post> GetAll(PostQueryParameters postQueryParameters)
@@ -60,11 +49,32 @@ namespace AutomotiveForumSystem.Services
         public Post Update(int id, Post post, User currentUser)
         {
             var postToUpdate = this.postRepository.GetPostById(id);
-            if (!IsPostCreatedByUser(postToUpdate, currentUser))
+            ValidateUserPostCreator(postToUpdate, currentUser);
+            return this.postRepository.UpdatePost(id, post);
+        }
+
+        private void ValidateUserNotBlocked(User currentUser)
+        {
+            if (currentUser.IsBlocked)
+            {
+                throw new UserBlockedException($"User {currentUser.UserName} is currently blocked");
+            }
+        }
+
+        private void ValidateUserAuthorization(Post post, User currentUser)
+        {
+            if (!IsUserAdmin(currentUser) && !IsPostCreatedByUser(post, currentUser))
+            {
+                throw new AuthorizationException("Not admin or post creator!");
+            }
+        }
+
+        private void ValidateUserPostCreator(Post post, User currentUser)
+        {
+            if (!IsPostCreatedByUser(post, currentUser))
             {
                 throw new AuthorizationException("Not post creator!");
             }
-            return this.postRepository.Update(id, post);
         }
 
         private bool IsPostCreatedByUser(Post post, User currentUser)

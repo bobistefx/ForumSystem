@@ -16,7 +16,7 @@ namespace AutomotiveForumSystem.Repositories
             this.applicationContext = applicationContext;
         }
 
-        public Post Create(Post post, User currentUser)
+        public Post CreatePost(Post post, User currentUser)
         {
             post.CreateDate = DateTime.Now;
             this.applicationContext.Posts.Add(post);
@@ -30,22 +30,19 @@ namespace AutomotiveForumSystem.Repositories
             return createdPost;
         }
 
-        public void Delete(Post post, User currentUser)
+        public void DeletePost(Post post, User currentUser)
         {
             //currentUser.Posts.Remove(post);
             post.IsDeleted = true;
             applicationContext.SaveChanges();
         }
 
-        public IList<Post> GetAllPosts()
-        {
-            IQueryable<Post> postsToReturn = applicationContext.Posts.Where(p => !p.IsDeleted);
-            return postsToReturn.Include(p => p.Category).ToList();
-        }
-
         public IList<Post> GetAll(PostQueryParameters postQueryParameters)
         {
-            var postsToReturn = this.applicationContext.Posts.Include(p => p.Category).Where(p => !p.IsDeleted).AsQueryable();
+            var postsToReturn = this.applicationContext.Posts
+                .Include(p => p.Category)
+                .Where(p => !p.IsDeleted)
+                .AsQueryable();
 
             if (!string.IsNullOrEmpty(postQueryParameters.Category))
             {
@@ -67,8 +64,9 @@ namespace AutomotiveForumSystem.Repositories
 
         public IList<Post> GetPostsByUser(int userId, PostQueryParameters postQueryParameters)
         {
-            var postsToReturn = applicationContext.Posts.AsQueryable()
-                .Where(p => p.UserID == userId && !p.IsDeleted);
+            var postsToReturn = applicationContext.Posts
+                .Where(p => p.UserID == userId && !p.IsDeleted)
+                .AsQueryable();
 
             if (!string.IsNullOrEmpty(postQueryParameters.Category))
             {
@@ -81,7 +79,7 @@ namespace AutomotiveForumSystem.Repositories
             return postsToReturn.Include(p => p.Category).ToList();
         }
 
-        public Post Update(int id, Post updatedPost)
+        public Post UpdatePost(int id, Post updatedPost)
         {
             var postToUpdate = applicationContext.Posts.FirstOrDefault(p => p.Id == id && !p.IsDeleted)
                 ?? throw new EntityNotFoundException($"Post with ID: {id} not found");

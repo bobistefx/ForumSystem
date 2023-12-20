@@ -80,7 +80,7 @@ namespace AutomotiveForumSystem.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var createdPost = this.postService.Create(this.postModelMapper.Map(model), currentUser);
+                var createdPost = this.postService.CreatePost(this.postModelMapper.Map(model), currentUser);
                 var postResponseDto = this.postModelMapper.MapPostToResponseDto(createdPost);
                 return Ok(postResponseDto);
             }
@@ -125,7 +125,7 @@ namespace AutomotiveForumSystem.Controllers
             try
             {
                 var currentUser = this.authManager.TryGetUser(credentials);
-                this.postService.Delete(id, currentUser);
+                this.postService.DeletePost(id, currentUser);
                 return Ok();
             }
             catch (EntityNotFoundException ex)
