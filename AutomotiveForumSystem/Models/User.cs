@@ -31,12 +31,12 @@ namespace AutomotiveForumSystem.Models
         public IList<Comment> Comments { get; set; } = new List<Comment>();
 
         [Required]
-        public bool IsAdmin { get; set; }
+        public bool? IsAdmin { get; set; } 
 
         [Required]
-        public bool IsBlocked { get; set; }
+        public bool? IsBlocked { get; set; }
 
         [Required]
-        public bool IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; } 
     }
 }

@@ -67,7 +67,7 @@ namespace AutomotiveForumSystem.Controllers
         }
 
         [HttpPut("/admin/{id}")]
-        public IActionResult UpdateAccountStatus([FromRoute]int id, [FromHeader] string credentials, UserUpdateAccountStatusDTO userDTO)
+        public IActionResult UpdateAccountSettings([FromRoute]int id, [FromHeader] string credentials, UserUpdateAccountStatusDTO userDTO)
         {
             try
             {
