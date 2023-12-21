@@ -89,7 +89,7 @@ namespace AutomotiveForumSystem.Repositories
 
             if (postToUpdate.CategoryID != updatedPost.CategoryID)
             {
-                var newCategory = applicationContext.Categories.FirstOrDefault(c => c.Id == updatedPost.CategoryID)
+                var newCategory = applicationContext.Categories.Where(c => !c.IsDeleted).FirstOrDefault(c => c.Id == updatedPost.CategoryID)
                     ?? throw new EntityNotFoundException($"Category with ID {updatedPost.CategoryID} not found");
                 postToUpdate.CategoryID = updatedPost.CategoryID;
             }
