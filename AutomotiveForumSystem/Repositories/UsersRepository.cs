@@ -17,7 +17,7 @@ namespace AutomotiveForumSystem.Repositories
 
         public User Create(User user)
         {
-            this.context.Add(user);
+            this.context.Users.Add(user);
             this.context.SaveChanges();
 
             return user;
@@ -52,9 +52,8 @@ namespace AutomotiveForumSystem.Repositories
 
         public User UpdateAccountSettings(User user, UserUpdateAccountStatusDTO userDTO)
         {
-            user.IsAdmin = userDTO.IsAdmin;
             user.IsBlocked = userDTO.IsBlocked;
-            user.IsDeleted = userDTO.IsDeleted;
+            user.IsAdmin = userDTO.IsAdmin;
 
             return user;
         }
