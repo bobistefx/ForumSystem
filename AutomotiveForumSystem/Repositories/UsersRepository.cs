@@ -47,6 +47,8 @@ namespace AutomotiveForumSystem.Repositories
             user.Email = userDTO.Email;
             user.PhoneNumber = userDTO.PhoneNumber;
 
+            this.context.SaveChanges();
+
             return user;
         }
 
@@ -54,6 +56,8 @@ namespace AutomotiveForumSystem.Repositories
         {
             user.IsBlocked = userDTO.IsBlocked;
             user.IsAdmin = userDTO.IsAdmin;
+
+            this.context.SaveChanges();
 
             return user;
         }

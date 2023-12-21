@@ -2,8 +2,8 @@
 {
     public class UserUpdateAccountStatusDTO
     {
-        public bool? IsBlocked { get; set; } 
+        public bool IsBlocked { get; set; } 
 
-        public bool? IsAdmin { get; set; } 
+        public bool IsAdmin { get; set; } 
     }
 }
