@@ -10,6 +10,6 @@ namespace AutomotiveForumSystem.Repositories.Contracts
         IList<Comment> GetAllRepliesByCommentId(int id);
         Comment CreateComment(Comment comment);
         Comment UpdateComment(int id, Comment comment);
-        bool DeleteComment(int id);
+        bool DeleteComment(Comment comment);
     }
 }

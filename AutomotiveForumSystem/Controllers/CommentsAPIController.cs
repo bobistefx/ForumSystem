@@ -1,4 +1,5 @@
-﻿using AutomotiveForumSystem.Helpers;
+﻿using AutomotiveForumSystem.Exceptions;
+using AutomotiveForumSystem.Helpers;
 using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.DTOs;
@@ -32,8 +33,8 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var commentsToReturn = commentsService.GetAllComments(commentQueryParameters);
-                return Ok(commentModelMapper.Map(commentsToReturn));
+                var commentsToReturn = this.commentsService.GetAllComments(commentQueryParameters);
+                return Ok(this.commentModelMapper.Map(commentsToReturn));
             }
             catch (Exception ex)
             {
@@ -46,8 +47,8 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var commentToReturn = commentsService.GetCommentById(id);
-                return Ok(commentModelMapper.Map(commentToReturn));
+                var commentToReturn = this.commentsService.GetCommentById(id);
+                return Ok(this.commentModelMapper.Map(commentToReturn));
             }
             catch (Exception ex)
             {
@@ -58,7 +59,17 @@ namespace AutomotiveForumSystem.Controllers
         [HttpGet("replies/{id}")]
         public IActionResult GetAllRepliesByCommentId(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var replies = this.commentsService.GetAllRepliesByCommentId(id);
+
+                // TODO : to map to DTO
+                return Ok(replies);
+            }
+            catch (Exception ex)
+            {
+                throw new EntityNotFoundException(ex.Message);
+            }
         }
 
         [HttpPost("")]
@@ -66,14 +77,14 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var user = authManager.TryGetUser(credentials);
-                var createdComment = commentModelMapper.Map(comment);
+                var user = this.authManager.TryGetUser(credentials);
+                var createdComment = this.commentModelMapper.Map(comment);
 
                 var post = postService.GetPostById(comment.PostID);
 
-                commentsService.CreateComment(user, post, createdComment);
+                this.commentsService.CreateComment(user, post, createdComment);
 
-                return Ok(commentModelMapper.Map(createdComment));
+                return Ok(this.commentModelMapper.Map(createdComment));
             }
             catch (Exception ex)
             {
@@ -86,13 +97,13 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                User user = authManager.TryGetUser(credentials);
+                User user = this.authManager.TryGetUser(credentials);
 
-                commentsService.UpdateComment(user, id, comment);
+                this.commentsService.UpdateComment(user, id, comment);
 
                 return Ok();
             }
-            catch (Exception ex)
+            catch (AuthenticationException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -101,7 +112,25 @@ namespace AutomotiveForumSystem.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteComment([FromHeader] string credentials, int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = this.authManager.TryGetUser(credentials);
+                var result = this.commentsService.DeleteComment(user, id);
+
+                return Ok("Comment deleted.");
+            }
+            catch (AuthenticationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (AuthorizationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
 }

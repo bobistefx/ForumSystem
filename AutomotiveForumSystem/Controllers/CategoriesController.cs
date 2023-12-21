@@ -37,7 +37,20 @@ namespace AutomotiveForumSystem.Controllers
             try
             {
                 var categoryToReturn = this.categoriesService.GetCategoryById(id);
+
                 return Ok(this.categoryModelMapper.Map(categoryToReturn));
+            }
+            catch (AuthenticationException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+            catch (AuthorizationException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+            catch (UserBlockedException ex)
+            {
+                return Unauthorized(ex.Message);
             }
             catch (EntityNotFoundException ex)
             {
@@ -52,6 +65,7 @@ namespace AutomotiveForumSystem.Controllers
             {
                 var user = this.authManager.TryGetUser(credentials);
                 var newCategory = this.categoriesService.CreateCategory(user, category.Name);
+
                 return Ok(this.categoryModelMapper.Map(newCategory));
             }
             catch (AuthenticationException ex)
@@ -59,6 +73,10 @@ namespace AutomotiveForumSystem.Controllers
                 return Unauthorized(ex.Message);
             }
             catch (AuthorizationException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+            catch (UserBlockedException ex)
             {
                 return Unauthorized(ex.Message);
             }

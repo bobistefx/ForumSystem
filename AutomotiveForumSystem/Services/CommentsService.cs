@@ -24,17 +24,17 @@ namespace AutomotiveForumSystem.Services
             comment.PostID = post.Id;
             comment.Post = post;
             comment.CreateDate = DateTime.Now;
-            return commentsRepository.CreateComment(comment);
+            return this.commentsRepository.CreateComment(comment);
         }
 
         public IList<Comment> GetAllComments(CommentQueryParameters commentQueryParameters)
         {
-            return commentsRepository.GetAllComments(commentQueryParameters);
+            return this.commentsRepository.GetAllComments(commentQueryParameters);
         }
 
         public Comment GetCommentById(int id)
         {
-            return commentsRepository.GetCommentById(id);
+            return this.commentsRepository.GetCommentById(id);
         }
 
         public IList<Comment> GetAllRepliesByCommentId(int id)
@@ -49,12 +49,28 @@ namespace AutomotiveForumSystem.Services
                 throw new AuthorizationException("Unauthorized");
             }
 
-            return commentsRepository.UpdateComment(id, comment);
+            return this.commentsRepository.UpdateComment(id, comment);
         }
 
         public bool DeleteComment(User user, int id)
         {
-            throw new NotImplementedException();
+            // TODO : check if we have to get the comment from the repo first
+            // so we check if the user is the creator !?
+            var commentToDelete = this.commentsRepository.GetCommentById(id);
+            
+            if (commentToDelete.IsDeleted)
+            {
+                throw new EntityNotFoundException($"Comment with id {id} not found");
+            }
+
+            if (commentToDelete.UserID != user.Id && user.IsAdmin)
+            {
+                throw new EntityNotFoundException($"Comment with id {id} not found");
+            }
+
+            this.commentsRepository.DeleteComment(commentToDelete);
+
+            return true;
         }
     }
 }
