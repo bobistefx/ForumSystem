@@ -79,7 +79,6 @@ namespace AutomotiveForumSystem.Helpers
             }
             catch (SecurityTokenException)
             {
-                // Token validation failed
                 throw new AuthenticationException("Invalid token");
             }
 
