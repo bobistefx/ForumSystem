@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Configuration;
-using AutomotiveForumSystem.Helpers.Identity;
 
 
 namespace AutomotiveForumSystem
