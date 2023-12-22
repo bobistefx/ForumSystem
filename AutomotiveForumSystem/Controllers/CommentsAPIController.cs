@@ -97,7 +97,7 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                User user = this.authManager.TryGetUser(credentials);
+                var user = this.authManager.TryGetUser(credentials);
 
                 this.commentsService.UpdateComment(user, id, comment);
 

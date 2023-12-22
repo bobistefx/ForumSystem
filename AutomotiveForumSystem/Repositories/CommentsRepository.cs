@@ -45,22 +45,17 @@ namespace AutomotiveForumSystem.Repositories
 
         public Comment GetCommentById(int id)
         {
-            var targetComment = this.applicationContext.Comments.FirstOrDefault(c => c.Id == id)
+            var targetComment = this.applicationContext.Comments
+                .Include(c => c.User)
+                .Include(c => c.Post)
+                .Include(c => c.Replies)
+                .FirstOrDefault(c => c.Id == id && !c.IsDeleted)
                 ?? throw new EntityNotFoundException($"Comment with id {id} not found.");
 
-            if (targetComment.IsDeleted == true)
+            if (targetComment.User.IsDeleted)
             {
-                throw new EntityNotFoundException($"There's no comment with id {id}");
+
             }
-
-            targetComment.User = this.applicationContext.Users.FirstOrDefault(user => user.Id == targetComment.UserID)
-                ?? throw new EntityNotFoundException($"User with id {targetComment.UserID} not found.");
-
-            targetComment.Post = this.applicationContext.Posts.FirstOrDefault(post => post.Id == targetComment.Id)
-                ?? throw new EntityNotFoundException($"Post with id {targetComment.PostID} not found.");
-
-            targetComment.Replies = this.applicationContext.Comments
-                .Where(p => p.PostID == id).ToList();
 
             return targetComment;
         }
@@ -71,7 +66,6 @@ namespace AutomotiveForumSystem.Repositories
                 ?? throw new EntityNotFoundException($"Comment with id {id} not found.");
 
             commentToUpdate.Content = comment.Content;
-            //this.applicationContext.Update(commentToUpdate);
             this.applicationContext.SaveChanges();
 
             return commentToUpdate;
@@ -80,7 +74,12 @@ namespace AutomotiveForumSystem.Repositories
         public bool DeleteComment(Comment comment)
         {
             comment.IsDeleted = true;
-            //this.applicationContext.Update(comment);
+
+            foreach (var item in comment.Replies)
+            {
+                item.IsDeleted = true;
+            }
+
             this.applicationContext.SaveChanges();
             return true;
         }
