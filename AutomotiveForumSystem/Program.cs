@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using AutomotiveForumSystem.Helpers.Identity;
 
 
 namespace AutomotiveForumSystem
@@ -40,6 +41,14 @@ namespace AutomotiveForumSystem
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
+            });
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminPolicy", policy =>
+                {
+                    policy.RequireClaim("admin", "True"); // Adjust the claim type and value as needed
+                });
             });
             // Configure JWT authentication
 
