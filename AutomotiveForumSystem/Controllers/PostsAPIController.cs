@@ -4,6 +4,7 @@ using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.PostDtos;
 using AutomotiveForumSystem.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.InteropServices;
@@ -70,12 +71,15 @@ namespace AutomotiveForumSystem.Controllers
         }
 
         // POST: api/posts
+        [Authorize]
         [HttpPost]
-        public IActionResult CreatePost([FromHeader]string credentials, [FromBody] PostCreateDTO model)
+        public IActionResult CreatePost([FromHeader(Name = "Authorization")] string authorizationHeader, [FromBody] PostCreateDTO model)
         {
             try
             {
-                var currentUser = this.authManager.TryGetUser(credentials);
+                var token = authorizationHeader.Replace("Bearer ", string.Empty);
+
+                var currentUser = this.authManager.TryGetUserFromToken(token);
                 if (!this.ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
@@ -95,12 +99,15 @@ namespace AutomotiveForumSystem.Controllers
         }
 
         // PUT: api/posts/id
+        [Authorize]
         [HttpPut("{id}")]
-        public IActionResult UpdatePost([FromHeader] string credentials, int id, [FromBody] PostCreateDTO model)
+        public IActionResult UpdatePost([FromHeader(Name = "Authorization")] string authorizationHeader, int id, [FromBody] PostCreateDTO model)
         {
             try
             {
-                var currentUser = this.authManager.TryGetUser(credentials);
+                var token = authorizationHeader.Replace("Bearer ", string.Empty);
+
+                var currentUser = this.authManager.TryGetUserFromToken(token);
                 var postToUpdate = this.postService.Update(id, this.postModelMapper.Map(model), currentUser);
                 return Ok(postModelMapper.MapPostToResponseDto(postToUpdate));
             }
@@ -119,12 +126,15 @@ namespace AutomotiveForumSystem.Controllers
         }
 
         // DELETE: api/posts/id
+        [Authorize]
         [HttpDelete("{id}")]
-        public IActionResult DeletePost([FromHeader] string credentials, int id)
+        public IActionResult DeletePost([FromHeader(Name = "Authorization")] string authorizationHeader, int id)
         {
             try
             {
-                var currentUser = this.authManager.TryGetUser(credentials);
+                var token = authorizationHeader.Replace("Bearer ", string.Empty);
+
+                var currentUser = this.authManager.TryGetUserFromToken(token);
                 this.postService.DeletePost(id, currentUser);
                 return Ok();
             }
