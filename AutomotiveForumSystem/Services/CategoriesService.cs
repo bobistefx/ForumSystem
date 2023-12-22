@@ -25,36 +25,25 @@ namespace AutomotiveForumSystem.Services
             return this.categoriesRepository.GetCategoryById(id);
         }
 
-        public Category CreateCategory(User user, string name)
+        public Category CreateCategory(string name)
         {
-            EnsureUserIsAuthorized(user);
             EnsureCategoryUniqueName(name);
             
             return this.categoriesRepository.CreateCategory(name);
         }
 
-        public Category UpdateCategory(User user, int id, Category category)
+        public Category UpdateCategory(int id, Category category)
         {
-            EnsureUserIsAuthorized(user);
             EnsureCategoryUniqueName(category.Name);
 
             return this.categoriesRepository.UpdateCategory(id, category);
         }
 
-        public bool DeleteCategory(User user, int id)
+        public bool DeleteCategory(int id)
         {
-            EnsureUserIsAuthorized(user);
             this.categoriesRepository.DeleteCategory(id);
 
             return true;
-        }
-
-        private void EnsureUserIsAuthorized(User user)
-        {
-            if (!user.IsAdmin)
-            {
-                throw new AuthorizationException("Not authorized.");
-            }
         }
 
         private void EnsureCategoryUniqueName(string categoryName)

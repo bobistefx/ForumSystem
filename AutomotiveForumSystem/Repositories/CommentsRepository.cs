@@ -29,7 +29,7 @@ namespace AutomotiveForumSystem.Repositories
             // TODO : check how to filter deleted users, comments etc.
             return this.applicationContext.Comments
                 .Where(c => c.IsDeleted == false)
-                .Include(c => c.Post).Where(c => c.IsDeleted == false )
+                .Include(c => c.Post).Where(c => c.IsDeleted == false)
                 .Include(c => c.Replies).Where(r => r.IsDeleted == false)
                 .Include(c => c.User)
                 .ToList();
@@ -71,7 +71,7 @@ namespace AutomotiveForumSystem.Repositories
             return commentToUpdate;
         }
 
-        public bool DeleteComment(Comment comment)
+        public bool DeleteComment(Comment comment, bool b_SaveChanges = true)
         {
             comment.IsDeleted = true;
 
@@ -80,7 +80,19 @@ namespace AutomotiveForumSystem.Repositories
                 item.IsDeleted = true;
             }
 
-            this.applicationContext.SaveChanges();
+            if (b_SaveChanges)
+                this.applicationContext.SaveChanges();
+
+            return true;
+        }
+
+        // TODO : ask trainers if we can call this method directly from Post Repository
+        public bool DeleteComments(List<Comment> comments)
+        {
+            foreach (var comment in comments)
+            {
+                this.DeleteComment(comment, false);
+            }
             return true;
         }
     }

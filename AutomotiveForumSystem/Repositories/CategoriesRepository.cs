@@ -18,7 +18,7 @@ namespace AutomotiveForumSystem.Repositories
         public IList<Category> GetAll(CategoryQueryParameters categoryQueryParameters)
         {
             IQueryable<Category> categories = this.applicationContext.Categories
-                .Where(x => x.IsDeleted == false);
+                .Where(c => c.IsDeleted == false);
 
             if (!string.IsNullOrEmpty(categoryQueryParameters.Name))
             {
@@ -29,7 +29,7 @@ namespace AutomotiveForumSystem.Repositories
             {
                 if (categoryQueryParameters.SortOrder == "asc")
                 {
-                    categories = categories.OrderBy(x => x.Name);
+                    categories = categories.OrderBy(c => c.Name);
                 }
                 else if (categoryQueryParameters.SortOrder == "desc")
                 {
@@ -42,7 +42,7 @@ namespace AutomotiveForumSystem.Repositories
 
         public Category GetCategoryById(int id)
         {
-            var categoryToReturn = this.applicationContext.Categories.FirstOrDefault(x => x.Id == id)
+            var categoryToReturn = this.applicationContext.Categories.FirstOrDefault(c => c.Id == id /*&& !c.IsDeleted*/)
                 ?? throw new EntityNotFoundException($"Category with id {id} not found.");
 
             return categoryToReturn;
@@ -63,20 +63,21 @@ namespace AutomotiveForumSystem.Repositories
 
         public Category UpdateCategory(int id, Category category)
         {
-            var beerToUpdate = GetCategoryById(id);
+            var categoryToUpdate = GetCategoryById(id);
 
-            beerToUpdate.Name = category.Name;
+            categoryToUpdate.Name = category.Name;
+            categoryToUpdate.IsDeleted = category.IsDeleted;
 
-            this.applicationContext.Update(beerToUpdate);
+            this.applicationContext.Update(categoryToUpdate);
             this.applicationContext.SaveChanges();
 
-            return beerToUpdate;
+            return categoryToUpdate;
         }
 
         public bool DeleteCategory(int id)
         {
-            var categoryToDelete = this.applicationContext.Categories.FirstOrDefault(c => c.Id == id)
-                ?? throw new EntityNotFoundException($"Category with id{id} not found.");
+            var categoryToDelete = this.applicationContext.Categories.FirstOrDefault(c => c.Id == id && !c.IsDeleted)
+                ?? throw new EntityNotFoundException($"Category with id {id} not found.");
 
             categoryToDelete.IsDeleted = true;
 
@@ -88,7 +89,7 @@ namespace AutomotiveForumSystem.Repositories
 
         public bool DoesCategoryExist(string name)
         {
-            return this.applicationContext.Categories.Any(c => c.Name == name);
+            return this.applicationContext.Categories.Any(c => c.Name == name && !c.IsDeleted);
         }
     }
 }

@@ -8,8 +8,8 @@ namespace AutomotiveForumSystem.Services.Contracts
     {
         IList<Category> GetAll(CategoryQueryParameters categoryQueryParameters);
         Category GetCategoryById(int id);
-        Category CreateCategory(User user, string name);
-        Category UpdateCategory(User user, int id, Category category);
-        bool DeleteCategory(User user, int id);
+        Category CreateCategory(string name);
+        Category UpdateCategory(int id, Category category);
+        bool DeleteCategory(int id);
     }
 }

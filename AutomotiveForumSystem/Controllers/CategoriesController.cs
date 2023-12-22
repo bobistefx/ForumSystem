@@ -2,6 +2,7 @@
 using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models.DTOs;
 using AutomotiveForumSystem.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutomotiveForumSystem.Controllers
@@ -11,15 +12,12 @@ namespace AutomotiveForumSystem.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoriesService categoriesService;
-        private readonly IAuthManager authManager;
         private readonly ICategoryModelMapper categoryModelMapper;
 
         public CategoriesController(ICategoriesService categoriesService,
-            IAuthManager authManager,
             ICategoryModelMapper categoryModelMapper)
         {
             this.categoriesService = categoriesService;
-            this.authManager = authManager;
             this.categoryModelMapper = categoryModelMapper;
         }
 
@@ -58,13 +56,13 @@ namespace AutomotiveForumSystem.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminPolicy")]
         [HttpPost("")]
-        public IActionResult CreateCategory([FromHeader] string credentials, [FromBody] CategoryDTO category)
+        public IActionResult CreateCategory([FromBody] CategoryDTO category)
         {
             try
             {
-                var user = this.authManager.TryGetUser(credentials);
-                var newCategory = this.categoriesService.CreateCategory(user, category.Name);
+                var newCategory = this.categoriesService.CreateCategory(category.Name);
 
                 return Ok(this.categoryModelMapper.Map(newCategory));
             }
@@ -90,15 +88,15 @@ namespace AutomotiveForumSystem.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminPolicy")]
         [HttpPut("{id}")]
-        public IActionResult UpdateCategory([FromHeader] string credentials, int id, [FromBody] CategoryDTO category)
+        public IActionResult UpdateCategory(int id, [FromBody] CategoryDTO category)
         {
             try
             {
-                var user = this.authManager.TryGetUser(credentials);
                 var newCategory = this.categoryModelMapper.Map(category);
 
-                this.categoriesService.UpdateCategory(user, id, newCategory);
+                this.categoriesService.UpdateCategory(id, newCategory);
 
                 return Ok(categoryModelMapper.Map(newCategory));
             }
@@ -120,15 +118,15 @@ namespace AutomotiveForumSystem.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminPolicy")]
         [HttpDelete("{id}")]
-        public IActionResult DeleteCategory([FromHeader] string credentials, int id)
+        public IActionResult DeleteCategory(int id)
         {
             Console.WriteLine("Delete category end point...");
 
             try
             {
-                var user = authManager.TryGetUser(credentials);
-                var categoryDeleted = this.categoriesService.DeleteCategory(user, id);
+                var categoryDeleted = this.categoriesService.DeleteCategory(id);
 
                 return Ok("Category deleted successfully.");
             }

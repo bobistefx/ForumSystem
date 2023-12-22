@@ -1,4 +1,6 @@
-﻿namespace AutomotiveForumSystem.Models.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AutomotiveForumSystem.Models.DTOs
 {
     public class CategoryDTO
     {
