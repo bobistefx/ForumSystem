@@ -15,9 +15,9 @@ namespace AutomotiveForumSystem.Services
             this.categoriesRepository = categoriesRepository;
         }
 
-        public IList<Category> GetAll(CategoryQueryParameters categoryQueryParameters)
+        public IList<Category> GetAll()
         {
-            return this.categoriesRepository.GetAll(categoryQueryParameters);
+            return this.categoriesRepository.GetAll();
         }
 
         public Category GetCategoryById(int id)

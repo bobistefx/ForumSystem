@@ -1,13 +1,10 @@
-﻿using AutomotiveForumSystem.Data;
-using AutomotiveForumSystem.Exceptions;
-using AutomotiveForumSystem.Models.DTOs;
-using AutomotiveForumSystem.Models;
+﻿using AutomotiveForumSystem.Models;
 
 namespace AutomotiveForumSystem.Repositories.Contracts
 {
     public interface ICategoriesRepository
     {
-        IList<Category> GetAll(CategoryQueryParameters categoryQueryParameters);
+        IList<Category> GetAll();
         Category GetCategoryById(int id);
         Category CreateCategory(string name);
         Category UpdateCategory(int id, Category category);

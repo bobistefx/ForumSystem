@@ -4,6 +4,7 @@ using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.DTOs;
 using AutomotiveForumSystem.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutomotiveForumSystem.Controllers
@@ -63,8 +64,7 @@ namespace AutomotiveForumSystem.Controllers
             {
                 var replies = this.commentsService.GetAllRepliesByCommentId(id);
 
-                // TODO : to map to DTO
-                return Ok(replies);
+                return Ok(this.commentModelMapper.Map(replies));
             }
             catch (Exception ex)
             {
@@ -72,6 +72,7 @@ namespace AutomotiveForumSystem.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminPolicy")]
         [HttpPost("")]
         public IActionResult CreateComment([FromHeader] string credentials, [FromBody] CommentCreateDTO comment)
         {
@@ -80,13 +81,21 @@ namespace AutomotiveForumSystem.Controllers
                 var user = this.authManager.TryGetUser(credentials);
                 var createdComment = this.commentModelMapper.Map(comment);
 
-                var post = postService.GetPostById(comment.PostID);
+                var post = this.postService.GetPostById(comment.PostID);
 
                 this.commentsService.CreateComment(user, post, createdComment);
 
                 return Ok(this.commentModelMapper.Map(createdComment));
             }
-            catch (Exception ex)
+            catch (AuthorizationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (AuthenticationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (DuplicateEntityException ex)
             {
                 return BadRequest(ex.Message);
             }

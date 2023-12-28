@@ -17,16 +17,6 @@ namespace AutomotiveForumSystem.Services
             this.postRepository = postRepository;
         }
 
-        public Comment CreateComment(User user, Post post, Comment comment)
-        {
-            comment.UserID = user.Id;
-            comment.User = user;
-            comment.PostID = post.Id;
-            comment.Post = post;
-            comment.CreateDate = DateTime.Now;
-            return this.commentsRepository.CreateComment(comment);
-        }
-
         public IList<Comment> GetAllComments(CommentQueryParameters commentQueryParameters)
         {
             return this.commentsRepository.GetAllComments(commentQueryParameters);
@@ -39,7 +29,17 @@ namespace AutomotiveForumSystem.Services
 
         public IList<Comment> GetAllRepliesByCommentId(int id)
         {
-            throw new NotImplementedException();
+            return this.commentsRepository.GetAllRepliesByCommentId(id);
+        }
+
+        public Comment CreateComment(User user, Post post, Comment comment)
+        {
+            comment.UserID = user.Id;
+            comment.User = user;
+            comment.PostID = post.Id;
+            comment.Post = post;
+            comment.CreateDate = DateTime.Now;
+            return this.commentsRepository.CreateComment(comment);
         }
 
         public Comment UpdateComment(User user, int id, Comment comment)
@@ -58,14 +58,15 @@ namespace AutomotiveForumSystem.Services
             // so we check if the user is the creator !?
             var commentToDelete = this.commentsRepository.GetCommentById(id);
             
-            if (commentToDelete.IsDeleted)
-            {
-                throw new EntityNotFoundException($"Comment with id {id} not found");
-            }
+            // IsDeleted check is done in the repo
+            //if (commentToDelete.IsDeleted)
+            //{
+            //    throw new EntityNotFoundException($"Comment with id {id} not found");
+            //}
 
-            if (commentToDelete.UserID != user.Id && user.IsAdmin)
+            if (commentToDelete.UserID != user.Id && !user.IsAdmin)
             {
-                throw new EntityNotFoundException($"Comment with id {id} not found");
+                throw new AuthorizationException($"Unauthorized.");
             }
 
             this.commentsRepository.DeleteComment(commentToDelete);

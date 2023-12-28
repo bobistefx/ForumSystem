@@ -22,13 +22,14 @@ namespace AutomotiveForumSystem.Controllers
         }
 
         [HttpGet("")]
-        public IActionResult GetAll([FromQuery] CategoryQueryParameters categoryQueryParameters)
+        public IActionResult GetAll()
         {
-            var categoriesToReturn = this.categoriesService.GetAll(categoryQueryParameters);
+            var categoriesToReturn = this.categoriesService.GetAll();
 
             return Ok(this.categoryModelMapper.Map(categoriesToReturn));
         }
 
+        [Authorize(Policy = "AdminPolicy")]
         [HttpGet("{id}")]
         public IActionResult GetCategoryById(int id)
         {
@@ -37,18 +38,6 @@ namespace AutomotiveForumSystem.Controllers
                 var categoryToReturn = this.categoriesService.GetCategoryById(id);
 
                 return Ok(this.categoryModelMapper.Map(categoryToReturn));
-            }
-            catch (AuthenticationException ex)
-            {
-                return Unauthorized(ex.Message);
-            }
-            catch (AuthorizationException ex)
-            {
-                return Unauthorized(ex.Message);
-            }
-            catch (UserBlockedException ex)
-            {
-                return Unauthorized(ex.Message);
             }
             catch (EntityNotFoundException ex)
             {
@@ -66,25 +55,9 @@ namespace AutomotiveForumSystem.Controllers
 
                 return Ok(this.categoryModelMapper.Map(newCategory));
             }
-            catch (AuthenticationException ex)
-            {
-                return Unauthorized(ex.Message);
-            }
-            catch (AuthorizationException ex)
-            {
-                return Unauthorized(ex.Message);
-            }
-            catch (UserBlockedException ex)
-            {
-                return Unauthorized(ex.Message);
-            }
             catch (DuplicateEntityException ex)
             {
                 return BadRequest(ex.Message);
-            }
-            catch (EntityNotFoundException ex)
-            {
-                return NotFound(ex.Message);
             }
         }
 
@@ -99,14 +72,6 @@ namespace AutomotiveForumSystem.Controllers
                 this.categoriesService.UpdateCategory(id, newCategory);
 
                 return Ok(categoryModelMapper.Map(newCategory));
-            }
-            catch (AuthenticationException ex)
-            {
-                return Unauthorized(ex.Message);
-            }
-            catch (AuthorizationException ex)
-            {
-                return Unauthorized(ex.Message);
             }
             catch (DuplicateEntityException ex)
             {
@@ -129,14 +94,6 @@ namespace AutomotiveForumSystem.Controllers
                 var categoryDeleted = this.categoriesService.DeleteCategory(id);
 
                 return Ok("Category deleted successfully.");
-            }
-            catch (AuthenticationException ex)
-            {
-                return Unauthorized(ex.Message);
-            }
-            catch (AuthorizationException ex)
-            {
-                return Unauthorized(ex.Message);
             }
             catch (EntityNotFoundException ex)
             {

@@ -13,7 +13,7 @@ namespace AutomotiveForumSystem.Helpers
 
             commentDTO.Post = comment.Post.Title;
             commentDTO.Content = comment.Content;
-            commentDTO.CreatedBy = comment.User.UserName;
+            commentDTO.User = comment.User.UserName;
             commentDTO.CreatedDate = comment.CreateDate.ToString();
             commentDTO.Replies = new List<CommentResponseDTO>();
 

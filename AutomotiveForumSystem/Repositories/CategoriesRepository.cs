@@ -9,40 +9,24 @@ namespace AutomotiveForumSystem.Repositories
     public class CategoriesRepository : ICategoriesRepository
     {
         private readonly ApplicationContext applicationContext;
+        IPostRepository postRepository;
 
-        public CategoriesRepository(ApplicationContext applicationContext)
+        public CategoriesRepository(ApplicationContext applicationContext, IPostRepository postRepository)
         {
             this.applicationContext = applicationContext;
+            this.postRepository = postRepository;
         }
 
-        public IList<Category> GetAll(CategoryQueryParameters categoryQueryParameters)
+        public IList<Category> GetAll()
         {
-            IQueryable<Category> categories = this.applicationContext.Categories
-                .Where(c => c.IsDeleted == false);
-
-            if (!string.IsNullOrEmpty(categoryQueryParameters.Name))
-            {
-                categories = categories.Where(c => c.Name.Contains(categoryQueryParameters.Name));
-            }
-
-            if (!string.IsNullOrEmpty(categoryQueryParameters.SortOrder))
-            {
-                if (categoryQueryParameters.SortOrder == "asc")
-                {
-                    categories = categories.OrderBy(c => c.Name);
-                }
-                else if (categoryQueryParameters.SortOrder == "desc")
-                {
-                    categories = categories.OrderByDescending(x => x.Name);
-                }
-            }
+            var categories = this.applicationContext.Categories.Where(c => c.IsDeleted == false);
 
             return categories.ToList();
         }
 
         public Category GetCategoryById(int id)
         {
-            var categoryToReturn = this.applicationContext.Categories.FirstOrDefault(c => c.Id == id /*&& !c.IsDeleted*/)
+            var categoryToReturn = this.applicationContext.Categories.FirstOrDefault(c => c.Id == id && !c.IsDeleted)
                 ?? throw new EntityNotFoundException($"Category with id {id} not found.");
 
             return categoryToReturn;
@@ -83,6 +67,13 @@ namespace AutomotiveForumSystem.Repositories
 
             this.applicationContext.Update(categoryToDelete);
             this.applicationContext.SaveChanges();
+
+            // NOTE : check if posts have to be initialized
+
+            foreach (var post in categoryToDelete.Posts)
+            {
+                postRepository.DeletePost(post);
+            }
 
             return true;
         }

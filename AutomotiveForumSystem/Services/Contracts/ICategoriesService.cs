@@ -6,7 +6,7 @@ namespace AutomotiveForumSystem.Services.Contracts
 {
     public interface ICategoriesService
     {
-        IList<Category> GetAll(CategoryQueryParameters categoryQueryParameters);
+        IList<Category> GetAll();
         Category GetCategoryById(int id);
         Category CreateCategory(string name);
         Category UpdateCategory(int id, Category category);
