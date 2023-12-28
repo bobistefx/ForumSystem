@@ -18,7 +18,16 @@ How to use the AutomotiveForumSystemAPI:
     - `credentials` (Header, username and password split by :, no spaces): JWT token for authentication.
   - Responses:
     - `200 OK`: Successful login.
-   
+
+#### Example Request
+
+```http
+POST /api/auth/login
+credentials: username:password
+```
+__________________________________________________________________________________________
+__________________________________________________________________________________________
+
 ### Categories
 
 - **GET /api/categories**
@@ -39,6 +48,8 @@ How to use the AutomotiveForumSystemAPI:
       - Response Body:
         - `string`: Error message describing the issue.
 
+__________________________________________________________________________________________
+
 - **POST /api/categories**
   - Description: Create a new category.
   - Parameters:
@@ -52,7 +63,19 @@ How to use the AutomotiveForumSystemAPI:
     - `400 Bad Request`: A category with the same name already exists.
       - Response Body:
         - `string`: Error message describing the issue.
-       
+
+### Example Request
+
+```http
+POST /api/categories
+Authorization: Bearer <your_token_here>
+
+{
+  "Name": "New Category"
+}
+```
+__________________________________________________________________________________________
+
 - **PUT /api/categories/{id}**
   - Description: Update an existing category by ID.
   - Parameters:
@@ -70,7 +93,19 @@ How to use the AutomotiveForumSystemAPI:
     - `404 Not Found`: The specified category ID was not found.
       - Response Body:
         - `string`: Error message describing the issue.
-       
+
+### Example Request
+
+```http
+POST /api/categories
+Authorization: Bearer <your_token_here>
+
+{
+  "Name": "New Category Name"
+}
+```
+__________________________________________________________________________________________
+
 - **DELETE /api/categories/{id}**
   - Description: Delete an existing category by ID.
   - Parameters:
@@ -83,6 +118,9 @@ How to use the AutomotiveForumSystemAPI:
     - `404 Not Found`: The specified category ID was not found.
       - Response Body:
         - `string`: Error message describing the issue.
+
+__________________________________________________________________________________________
+__________________________________________________________________________________________
 
 ### Posts
 
@@ -100,6 +138,8 @@ How to use the AutomotiveForumSystemAPI:
     - `404 Not Found`: No posts found based on the specified criteria.
       - Response Body:
         - `string`: Error message describing the issue.
+
+__________________________________________________________________________________________
 
 - **GET /api/posts/users/{id}**
   - Description: Retrieve a list of posts created by a specific user based on specified query parameters.
@@ -123,6 +163,8 @@ How to use the AutomotiveForumSystemAPI:
 ```http
 GET /api/posts/users/123?Category=Tuning&Title=toyota-supra-mk4-tuning-and-restoration
 ```
+__________________________________________________________________________________________
+
 - **GET /api/posts/{id}**
   - Description: Retrieve details of a specific post by its ID.
   - Parameters:
@@ -139,5 +181,93 @@ GET /api/posts/users/123?Category=Tuning&Title=toyota-supra-mk4-tuning-and-resto
 #### Example Request
 
 ```http
-GET /api/posts/123
+GET /api/posts/123?Category=Tuning&Title=toyota-supra-mk4-tuning-and-restoration
 ```
+__________________________________________________________________________________________
+
+- **POST /api/posts**
+  - Description: Create a new post.
+  - Authorization: Requires a valid JWT token in the Authorization header.
+  - Request Body: PostCreateDTO.
+  - Responses:
+    - `200 OK`: Successful operation. Returns details of the newly created post.
+      - Response Body:
+        - PostResponseDTO.
+    - `400 Bad Request`: Invalid request. Check the request body or authorization token.
+      - Response Body:
+        - `string`: Error message describing the issue.
+
+#### Example Request
+
+```http
+POST /api/posts
+Authorization: Bearer <your_jwt_token_here>
+
+{
+  "categoryID": 1,
+  "title": "Sample Title",
+  "content": "This is a sample post content."
+}
+```
+__________________________________________________________________________________________
+
+### Posts
+
+- **PUT /api/posts/{id}**
+  - Description: Update an existing post by ID.
+  - Authorization: Requires a valid JWT token in the Authorization header.
+  - Parameters:
+    - `id` (Path): ID of the post to be updated.
+      - Type: `integer`
+  - Request Body: PostCreateDTO.
+  - Responses:
+    - `200 OK`: Successful operation. Returns details of the updated post.
+      - Response Body:
+        - PostResponseDTO.
+    - `400 Bad Request`: Invalid request. Check the request body or authorization token.
+      - Response Body:
+        - `string`: Error message describing the issue.
+    - `404 Not Found`: No post found for the specified ID.
+      - Response Body:
+        - `string`: Error message describing the issue.
+
+#### Example Request
+
+```http
+PUT /api/posts/123
+Authorization: Bearer <your_jwt_token_here>
+
+{
+  "categoryID": 2,
+  "title": "Updated Post",
+  "content": "This is the updated content of the post."
+}
+```
+__________________________________________________________________________________________
+
+- **DELETE /api/posts/{id}**
+  - Description: Delete an existing post by ID.
+  - Authorization: Requires a valid JWT token in the Authorization header.
+  - Parameters:
+    - `id` (Path): ID of the post to be deleted.
+      - Type: `integer`
+  - Responses:
+    - `200 OK`: Successful operation. Returns a success message.
+      - Response Body:
+        - `string`: "Post deleted successfully!"
+    - `400 Bad Request`: Invalid request. Check the authorization token.
+      - Response Body:
+        - `string`: Error message describing the issue.
+    - `404 Not Found`: No post found for the specified ID.
+      - Response Body:
+        - `string`: Error message describing the issue.
+
+#### Example Request
+
+```http
+DELETE /api/posts/123
+Authorization: Bearer <your_jwt_token_here>
+```
+
+__________________________________________________________________________________________
+__________________________________________________________________________________________
