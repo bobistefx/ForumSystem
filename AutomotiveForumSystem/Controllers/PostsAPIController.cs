@@ -136,7 +136,7 @@ namespace AutomotiveForumSystem.Controllers
 
                 var currentUser = this.authManager.TryGetUserFromToken(token);
                 this.postService.DeletePost(id, currentUser);
-                return Ok();
+                return Ok("Post deleted successfully!");
             }
             catch (EntityNotFoundException ex)
             {

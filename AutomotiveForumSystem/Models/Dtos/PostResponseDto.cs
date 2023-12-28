@@ -10,7 +10,7 @@ namespace AutomotiveForumSystem.Models.PostDtos
 
         public string Content { get; set; } = "";
 
-        public DateTime CreateDate { get; set; }
+        public string CreateDate { get; set; }
 
         public IList<Comment> Comments { get; set; }
 

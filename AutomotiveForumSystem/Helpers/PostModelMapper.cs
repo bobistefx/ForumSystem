@@ -26,7 +26,7 @@ namespace AutomotiveForumSystem.Helpers
                     CategoryName = p.Category.Name,
                     Title = p.Title,
                     Content = p.Content,
-                    CreateDate = p.CreateDate,
+                    CreateDate = p.CreateDate.ToString(),
                     Comments = p.Comments,
                     Likes = p.Likes
                 })
@@ -40,7 +40,7 @@ namespace AutomotiveForumSystem.Helpers
                 CategoryName = post.Category.Name,
                 Title = post.Title,
                 Content = post.Content,
-                CreateDate = post.CreateDate,
+                CreateDate = post.CreateDate.ToString(),
                 Comments = post.Comments,
                 Likes = post.Likes
             };
