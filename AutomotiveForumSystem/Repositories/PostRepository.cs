@@ -3,6 +3,7 @@ using AutomotiveForumSystem.Exceptions;
 using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.PostDtos;
 using AutomotiveForumSystem.Repositories.Contracts;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AutomotiveForumSystem.Repositories
@@ -10,10 +11,14 @@ namespace AutomotiveForumSystem.Repositories
     public class PostRepository : IPostRepository
     {
         private readonly ApplicationContext applicationContext;
+        private readonly ICategoriesRepository categoriesRepository;
+        private readonly ICommentsRepository commentsRepository;
 
-        public PostRepository(ApplicationContext applicationContext)
+        public PostRepository(ApplicationContext applicationContext, ICategoriesRepository categoriesRepository, ICommentsRepository commentsRepository)
         {
             this.applicationContext = applicationContext;
+            this.categoriesRepository = categoriesRepository;
+            this.commentsRepository = commentsRepository;
         }
 
         public Post CreatePost(Post post, User currentUser)
@@ -28,13 +33,6 @@ namespace AutomotiveForumSystem.Repositories
             .FirstOrDefault(p => p.Id == post.Id);
 
             return createdPost;
-        }
-
-        public void DeletePost(Post post, User currentUser)
-        {
-            //currentUser.Posts.Remove(post);
-            post.IsDeleted = true;
-            applicationContext.SaveChanges();
         }
 
         public IList<Post> GetAll(PostQueryParameters postQueryParameters)
@@ -97,6 +95,13 @@ namespace AutomotiveForumSystem.Repositories
             applicationContext.SaveChanges();
 
             return postToUpdate;
+        }
+
+        public void DeletePost(Post post)
+        {
+            post.IsDeleted = true;
+            commentsRepository.DeleteComments(post.Comments);
+            applicationContext.SaveChanges();
         }
     }
 }

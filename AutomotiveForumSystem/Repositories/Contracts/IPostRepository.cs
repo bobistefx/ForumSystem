@@ -10,6 +10,6 @@ namespace AutomotiveForumSystem.Repositories.Contracts
         Post GetPostById(int id);
         Post CreatePost(Post post, User currentUser);
         Post UpdatePost(int id, Post post);
-        void DeletePost(Post post, User currentUser);
+        void DeletePost(Post post);
     }
 }
