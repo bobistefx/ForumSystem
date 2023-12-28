@@ -96,7 +96,7 @@ ________________________________________________________________________________
 #### Example Request
 
 ```http
-POST /api/categories
+PUT /api/categories
 Authorization: Bearer <your_token_here>
 
 {
