@@ -15,7 +15,7 @@ How to use the AutomotiveForumSystemAPI:
 - **POST /api/auth/login**
   - Description: Log in and obtain an authentication token.
   - Parameters: 
-    - `credentials` (Header, username and password split by ':', no spaces): JWT token for authentication.
+    - `credentials` (Header, username and password split by :, no spaces): JWT token for authentication.
   - Responses:
     - `200 OK`: Successful login.
    
@@ -83,3 +83,61 @@ How to use the AutomotiveForumSystemAPI:
     - `404 Not Found`: The specified category ID was not found.
       - Response Body:
         - `string`: Error message describing the issue.
+
+### Posts
+
+- **GET /api/posts**
+  - Description: Retrieve a list of posts based on specified query parameters. If there are no query parameters, retrieves a list, containing all posts.
+  - Parameters:
+    - `Category` (Query): Filter posts by category name.
+      - Type: `string`
+    - `Title` (Query): Filter posts by title.
+      - Type: `string`
+  - Responses:
+    - `200 OK`: Successful operation. Returns a list of posts.
+      - Response Body:
+        - Array of PostResponseDTO.
+    - `404 Not Found`: No posts found based on the specified criteria.
+      - Response Body:
+        - `string`: Error message describing the issue.
+
+- **GET /api/posts/users/{id}**
+  - Description: Retrieve a list of posts created by a specific user based on specified query parameters.
+  - Parameters:
+    - `id` (Path): User ID for whom to retrieve posts.
+      - Type: `integer`
+    - `Category` (Query): Filter posts by category name.
+      - Type: `string`
+    - `Title` (Query): Filter posts by title.
+      - Type: `string`
+  - Responses:
+    - `200 OK`: Successful operation. Returns a list of posts.
+      - Response Body:
+        - Array of PostResponseDTO.
+    - `404 Not Found`: No posts found for the specified user or criteria.
+      - Response Body:
+        - `string`: Error message describing the issue.
+
+#### Example Request
+
+```http
+GET /api/posts/users/123?Category=Tuning&Title=toyota-supra-mk4-tuning-and-restoration
+```
+- **GET /api/posts/{id}**
+  - Description: Retrieve details of a specific post by its ID.
+  - Parameters:
+    - `id` (Path): Post ID for which to retrieve details.
+      - Type: `integer`
+  - Responses:
+    - `200 OK`: Successful operation. Returns the details of the specified post.
+      - Response Body:
+        - PostResponseDTO.
+    - `404 Not Found`: No post found for the specified ID.
+      - Response Body:
+        - `string`: Error message describing the issue.
+
+#### Example Request
+
+```http
+GET /api/posts/123
+```
