@@ -9,7 +9,7 @@ namespace AutomotiveForumSystem.Repositories
     public class CategoriesRepository : ICategoriesRepository
     {
         private readonly ApplicationContext applicationContext;
-        IPostRepository postRepository;
+        private readonly IPostRepository postRepository;
 
         public CategoriesRepository(ApplicationContext applicationContext, IPostRepository postRepository)
         {

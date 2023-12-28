@@ -11,13 +11,11 @@ namespace AutomotiveForumSystem.Repositories
     public class PostRepository : IPostRepository
     {
         private readonly ApplicationContext applicationContext;
-        private readonly ICategoriesRepository categoriesRepository;
         private readonly ICommentsRepository commentsRepository;
 
-        public PostRepository(ApplicationContext applicationContext, ICategoriesRepository categoriesRepository, ICommentsRepository commentsRepository)
+        public PostRepository(ApplicationContext applicationContext, ICommentsRepository commentsRepository)
         {
             this.applicationContext = applicationContext;
-            this.categoriesRepository = categoriesRepository;
             this.commentsRepository = commentsRepository;
         }
 
