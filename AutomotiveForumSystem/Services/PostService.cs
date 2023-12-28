@@ -28,7 +28,7 @@ namespace AutomotiveForumSystem.Services
         {
             var postToDelete = this.postRepository.GetPostById(id);
             ValidateUserAuthorization(postToDelete, currentUser);
-            this.postRepository.DeletePost(postToDelete, currentUser);
+            this.postRepository.DeletePost(postToDelete);
         }
 
         public IList<Post> GetAll(PostQueryParameters postQueryParameters)
