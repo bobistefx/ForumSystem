@@ -63,7 +63,7 @@ ________________________________________________________________________________
       - Response Body:
         - `string`: Error message describing the issue.
 
-### Example Request
+#### Example Request
 
 ```http
 POST /api/categories
@@ -93,7 +93,7 @@ ________________________________________________________________________________
       - Response Body:
         - `string`: Error message describing the issue.
 
-### Example Request
+#### Example Request
 
 ```http
 POST /api/categories
