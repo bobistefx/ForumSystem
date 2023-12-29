@@ -1,4 +1,6 @@
-﻿namespace AutomotiveForumSystem.Models.CommentDTOs
+﻿using AutomotiveForumSystem.Models.DTOs;
+
+namespace AutomotiveForumSystem.Models.CommentDTOs
 {
     public class CommentResponseDTO
     {
@@ -6,6 +8,6 @@
         public string Content { get; set; }
         public string User { get; set; }
         public string CreatedDate { get; set; }
-        public IList<CommentResponseDTO> Replies { get; set; }
+        public IList<CommentResponseReplyDTO> Replies { get; set; }
     }
 }

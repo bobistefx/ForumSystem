@@ -70,10 +70,10 @@ namespace AutomotiveForumSystem.Repositories
 
             // NOTE : check if posts have to be initialized
 
-            //foreach (var post in categoryToDelete.Posts)
-            //{
-            //    postRepository.DeletePost(post);
-            //}
+            foreach (var post in categoryToDelete.Posts)
+            {
+                postRepository.DeletePost(post);
+            }
 
             return true;
         }

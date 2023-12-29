@@ -47,30 +47,7 @@ namespace AutomotiveForumSystem.Repositories
                 !c.User.IsDeleted);
             }
 
-            IOrderedQueryable<Comment> orderedComments = (IOrderedQueryable<Comment>)comments;
-
-            // NOTE : do we even have to sort by data as the entries are always created sequentially
-            if (!string.IsNullOrEmpty(commentQueryParameters.SortBy))
-            {
-                if (commentQueryParameters.SortBy == "user")
-                {
-                    orderedComments = orderedComments.OrderBy(c => c.User.UserName);
-                }
-                else if (commentQueryParameters.SortBy == "date")
-                {
-                    orderedComments = orderedComments.ThenBy(c => c.CreateDate);
-                }
-            }
-
-            if (!string.IsNullOrEmpty(commentQueryParameters.SortOrder))
-            {
-                if (commentQueryParameters.SortOrder == "desc")
-                {
-                    orderedComments = orderedComments.OrderByDescending(c => c);
-                }
-            }
-
-            return orderedComments.ToList();
+            return comments.ToList();
         }
 
         // NOTE : do we even have to have this ?
@@ -96,15 +73,12 @@ namespace AutomotiveForumSystem.Repositories
             return targetComment;
         }
 
-        public Comment UpdateComment(int id, Comment comment)
+        public Comment UpdateComment(Comment comment, string content)
         {
-            var commentToUpdate = this.applicationContext.Comments.FirstOrDefault(p => p.Id == id && !p.IsDeleted)
-                ?? throw new EntityNotFoundException($"Comment with id {id} not found.");
-
-            commentToUpdate.Content = comment.Content;
+            comment.Content = content;
             this.applicationContext.SaveChanges();
 
-            return commentToUpdate;
+            return comment;
         }
 
         public bool DeleteComment(Comment comment, bool b_SaveChanges = true)
@@ -124,7 +98,6 @@ namespace AutomotiveForumSystem.Repositories
             return true;
         }
 
-        // TODO : ask trainers if we can call this method directly from Post Repository
         public bool DeleteComments(List<Comment> comments)
         {
             foreach (var comment in comments)

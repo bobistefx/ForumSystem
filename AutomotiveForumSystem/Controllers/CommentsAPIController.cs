@@ -2,6 +2,7 @@
 using AutomotiveForumSystem.Helpers;
 using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models;
+using AutomotiveForumSystem.Models.CommentDTOs;
 using AutomotiveForumSystem.Models.DTOs;
 using AutomotiveForumSystem.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
@@ -72,65 +73,73 @@ namespace AutomotiveForumSystem.Controllers
             }
         }
 
-        [Authorize(Policy = "AdminPolicy")]
+        [Authorize]
         [HttpPost("")]
-        public IActionResult CreateComment([FromHeader] string credentials, [FromBody] CommentCreateDTO comment)
+        public IActionResult CreateComment([FromHeader(Name = "Authorization")] string auth, [FromBody] CommentCreateDTO comment)
         {
             try
             {
-                var user = this.authManager.TryGetUser(credentials);
+                var token = auth.Replace("Bearer ", string.Empty);
+
+                var user = this.authManager.TryGetUserFromToken(token);
                 var createdComment = this.commentModelMapper.Map(comment);
 
                 var post = this.postService.GetPostById(comment.PostID);
 
-                this.commentsService.CreateComment(user, post, createdComment);
+                this.commentsService.CreateComment(user, post, createdComment, comment.CommentID);
 
                 return Ok(this.commentModelMapper.Map(createdComment));
-            }
-            catch (AuthorizationException ex)
+            }                        
+            catch (UserBlockedException ex)
             {
-                return BadRequest(ex.Message);
-            }
-            catch (AuthenticationException ex)
-            {
-                return BadRequest(ex.Message);
+                return Unauthorized(ex.Message);
             }
             catch (DuplicateEntityException ex)
             {
                 return BadRequest(ex.Message);
             }
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult UpdateComment([FromHeader] string credentials, int id, [FromBody] Comment comment)
-        {
-            try
-            {
-                var user = this.authManager.TryGetUser(credentials);
-
-                this.commentsService.UpdateComment(user, id, comment);
-
-                return Ok();
-            }
-            catch (AuthenticationException ex)
+            catch (EntityNotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult DeleteComment([FromHeader] string credentials, int id)
+        [Authorize]
+        [HttpPut("{id}")]
+        public IActionResult UpdateComment([FromHeader(Name = "Authorization")] string auth, int id, [FromBody] CommentRequestDTO content)
         {
             try
             {
-                var user = this.authManager.TryGetUser(credentials);
+                Console.WriteLine(content);
+
+                var token = auth.Replace("Bearer ", string.Empty);
+
+                var user = this.authManager.TryGetUserFromToken(token);
+
+                var updatedComment = this.commentsService.UpdateComment(user, id, content.Content);
+
+                return Ok(commentModelMapper.Map(updatedComment));
+            }
+            catch (AuthenticationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpDelete("{id}")]
+        public IActionResult DeleteComment([FromHeader(Name = "Authorization")] string auth, int id)
+        {
+            try
+            {
+                var user = this.authManager.TryGetUserFromToken(auth);
                 var result = this.commentsService.DeleteComment(user, id);
 
                 return Ok("Comment deleted.");
-            }
-            catch (AuthenticationException ex)
-            {
-                return BadRequest(ex.Message);
             }
             catch (AuthorizationException ex)
             {
