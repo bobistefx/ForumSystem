@@ -11,8 +11,18 @@ namespace AutomotiveForumSystem.Services.Contracts
 
         User GetByUsername(string username);
 
+        User GetByEmail(string email);
+
+        List<User> GetByFirstName(string firstName);
+
+        User Block(User requestingUser, User user);
+
+        User Unblock(User requestingUser, User user);
+
+        User SetAdmin(User requestingUser, User user);
+
         User UpdateProfileInformation(User user, UserUpdateProfileInformationDTO userDTO);
 
-        User UpdateAccountSettings(User requestingUser, User userToUpdate, UserUpdateAccountStatusDTO userDTO);
+        void Delete(User userToDelete);
     }
 }

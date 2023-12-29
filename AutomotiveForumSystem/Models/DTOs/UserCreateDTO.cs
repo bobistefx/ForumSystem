@@ -1,4 +1,4 @@
-﻿namespace AutomotiveForumSystem.Models.DTOS
+﻿namespace AutomotiveForumSystem.Models.DTOs
 {
     public class UserCreateDTO
     {

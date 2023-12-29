@@ -1,6 +1,5 @@
 ﻿using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.DTOs;
-using AutomotiveForumSystem.Models.DTOS;
 using AutomotiveForumSystem.Helpers.Contracts;
 
 namespace AutomotiveForumSystem.Helpers
@@ -30,6 +29,20 @@ namespace AutomotiveForumSystem.Helpers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber
             };
+        }
+
+        public List<UserResponseDTO> Map(List<User> users)
+        {
+            var responseList = new List<UserResponseDTO>();
+
+            foreach (var user in users)
+            {
+                responseList.Add(this.Map(user));
+            }
+
+            //var list = users.Select(u => this.Map(u)).ToList();
+
+            return responseList;
         }
     }
 }

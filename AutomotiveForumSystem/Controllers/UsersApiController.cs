@@ -1,7 +1,6 @@
 ﻿using AutomotiveForumSystem.Exceptions;
 using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models.DTOs;
-using AutomotiveForumSystem.Models.DTOS;
 using AutomotiveForumSystem.Services.Contracts;
 
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +22,7 @@ namespace AutomotiveForumSystem.Controllers
             this.authManager = authManager;
         }
 
-        [HttpPost("")]
+        [HttpPost]
         public IActionResult Create([FromBody] UserCreateDTO userDTO)
         {
             try
@@ -40,8 +39,7 @@ namespace AutomotiveForumSystem.Controllers
             }
         }
 
-        //PUT domain/api/users
-        [HttpPut("")]
+        [HttpPut]
         public IActionResult UpdateProfileInformation([FromHeader] string credentials, [FromBody] UserUpdateProfileInformationDTO userDTO)
         {
             try
@@ -64,40 +62,26 @@ namespace AutomotiveForumSystem.Controllers
             {
                 return NotFound(e.Message);
             }
-        }
-
-        [HttpPut("/admin/{id}")]
-        public IActionResult UpdateAccountSettings([FromRoute]int id, [FromHeader] string credentials, UserUpdateAccountStatusDTO userDTO)
+        }        
+        
+        [HttpDelete]
+        public IActionResult Delete([FromRoute] int id, [FromHeader] string credentials)
         {
             try
             {
-                var requestingUser = this.authManager.TryGetUser(credentials);
-                var userToUpdate = this.usersService.GetById(id);
-                this.usersService.UpdateAccountSettings(requestingUser, userToUpdate, userDTO);
-                var userResponse = this.userMapper.Map(userToUpdate);
+                var user = this.authManager.TryGetUser(credentials);
+                this.usersService.Delete(user);
 
-                return Ok(userResponse);
+                return Ok();
             }
             catch (AuthenticationException e)
             {
                 return Unauthorized(e.Message);
-            }
-            catch (UserBlockedException e)
-            {
-                return BadRequest(e.Message);
-            }
-            catch (UserNotBlockedException e)
-            {
-                return BadRequest(e.Message);
             }
             catch (EntityNotFoundException e)
             {
                 return NotFound(e.Message);
             }
         }
-        
-
-        //[HttpDelete("")]
-        //public IActionResult Delete([FromRoute] int id, [FromHeader] string credentials)
     }
 }

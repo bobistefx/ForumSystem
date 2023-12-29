@@ -1,8 +1,8 @@
 ﻿using AutomotiveForumSystem.Data;
 using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Exceptions;
-using AutomotiveForumSystem.Models.DTOs;
 using AutomotiveForumSystem.Repositories.Contracts;
+using AutomotiveForumSystem.Models.DTOs;
 
 namespace AutomotiveForumSystem.Repositories
 {
@@ -30,14 +30,47 @@ namespace AutomotiveForumSystem.Repositories
 
         public User GetById(int id)
         {
-            return this.context.Users.FirstOrDefault(u => u.Id == id)
+            return this.GetAll().FirstOrDefault(u => u.Id == id)
                 ?? throw new EntityNotFoundException($"User with id {id} does not exist.");
         }
 
         public User GetByUsername(string username)
         {
-            return this.context.Users.FirstOrDefault(u => u.UserName == username)
+            return this.GetAll().FirstOrDefault(u => u.UserName == username)
                 ?? throw new EntityNotFoundException($"User with username {username} does not exist.");
+        }
+
+        public User GetByEmail(string email)
+        {
+            return this.GetAll().FirstOrDefault(u => u.Email == email)
+                ?? throw new EntityNotFoundException($"User with email {email} does not exist.");
+        }
+
+        public List<User> GetByFirstName(string firstName)
+        {
+            return this.GetAll().FindAll(u => u.FirstName == firstName)
+                ?? throw new EntityNotFoundException($"No user with first name {firstName} exists.");
+        }
+
+        public User Block(User user)
+        {
+            user.IsBlocked = true;
+            this.context.SaveChanges();
+            return user;
+        }
+
+        public User Unblock(User user)
+        {
+            user.IsBlocked = false;
+            this.context.SaveChanges();
+            return user;
+        }
+
+        public User SetAdmin(User user)
+        {
+            user.IsAdmin = true;
+            this.context.SaveChanges();
+            return user;
         }
 
         public User UpdateProfileInformation(User user, UserUpdateProfileInformationDTO userDTO)
@@ -52,14 +85,11 @@ namespace AutomotiveForumSystem.Repositories
             return user;
         }
 
-        public User UpdateAccountSettings(User user, UserUpdateAccountStatusDTO userDTO)
+
+        public void Delete(User userToDelete)
         {
-            user.IsBlocked = userDTO.IsBlocked;
-            user.IsAdmin = userDTO.IsAdmin;
-
+            userToDelete.IsDeleted = true;
             this.context.SaveChanges();
-
-            return user;
-        }
+        }        
     }
 }
