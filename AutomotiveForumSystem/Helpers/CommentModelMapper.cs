@@ -15,13 +15,18 @@ namespace AutomotiveForumSystem.Helpers
             commentDTO.Content = comment.Content;
             commentDTO.User = comment.User.UserName;
             commentDTO.CreatedDate = comment.CreateDate.ToString();
-            commentDTO.Replies = new List<CommentResponseDTO>();
+            commentDTO.Replies = new List<CommentResponseReplyDTO>();
 
             if (comment.Replies != null)
             {
                 foreach (var item in comment.Replies)
                 {
-                    commentDTO.Replies.Add(Map(item));
+                    commentDTO.Replies.Add(new CommentResponseReplyDTO()
+                    {
+                        Content = item.Content,
+                        User = item.User.UserName,
+                        CreatedDate = item.CreateDate.ToString(),
+                    });
                 }
             }
 

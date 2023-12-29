@@ -32,24 +32,43 @@ namespace AutomotiveForumSystem.Services
             return this.commentsRepository.GetAllRepliesByCommentId(id);
         }
 
-        public Comment CreateComment(User user, Post post, Comment comment)
+        public Comment CreateComment(User user, Post post, Comment comment, int? baseCommentID)
         {
+            if (user.IsDeleted)
+            {
+                throw new EntityNotFoundException($"User with user name {user.UserName} not found.");
+            }
+
+            if (user.IsBlocked)
+            {
+                throw new UserBlockedException($"User with user name {user.UserName} is blocked.");
+            }
+
             comment.UserID = user.Id;
             comment.User = user;
             comment.PostID = post.Id;
             comment.Post = post;
             comment.CreateDate = DateTime.Now;
+
+            if (baseCommentID != null)
+            {
+                Comment baseComment = this.commentsRepository.GetCommentById((int)baseCommentID);
+                baseComment.Replies.Add(comment);
+            }
+
             return this.commentsRepository.CreateComment(comment);
         }
 
-        public Comment UpdateComment(User user, int id, Comment comment)
+        public Comment UpdateComment(User user, int id, string content)
         {
-            if (user.Id != comment.UserID)
+            var commentToUpdate = this.commentsRepository.GetCommentById(id);
+
+            if (user.Id != commentToUpdate.UserID)
             {
                 throw new AuthorizationException("Unauthorized");
             }
 
-            return this.commentsRepository.UpdateComment(id, comment);
+            return this.commentsRepository.UpdateComment(commentToUpdate, content);
         }
 
         public bool DeleteComment(User user, int id)

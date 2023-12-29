@@ -2,6 +2,6 @@
 {
     public class CommentRequestDTO
     {
-
+        public string Content { get; set; }
     }
 }

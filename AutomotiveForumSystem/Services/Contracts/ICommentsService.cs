@@ -10,8 +10,8 @@ namespace AutomotiveForumSystem.Services.Contracts
         IList<Comment> GetAllComments(CommentQueryParameters commentQueryParameters);
         Comment GetCommentById(int id);
         IList<Comment> GetAllRepliesByCommentId(int id);
-        Comment CreateComment(User user, Post post, Comment comment);
-        Comment UpdateComment(User user, int id, Comment comment);
+        Comment CreateComment(User user, Post post, Comment comment, int? baseCommentID);
+        Comment UpdateComment(User user, int id, string content);
         bool DeleteComment(User user, int id);
     }
 }
