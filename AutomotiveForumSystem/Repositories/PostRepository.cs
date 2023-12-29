@@ -46,7 +46,7 @@ namespace AutomotiveForumSystem.Repositories
             }
             if (!string.IsNullOrEmpty(postQueryParameters.Title))
             {
-                postsToReturn = postsToReturn.Where(p => p.Title == postQueryParameters.Title);
+                postsToReturn = postsToReturn.Where(p => p.Title.Contains(postQueryParameters.Title));
             }
 
             return postsToReturn.ToList();
@@ -70,7 +70,7 @@ namespace AutomotiveForumSystem.Repositories
             }
             if (!string.IsNullOrEmpty(postQueryParameters.Title))
             {
-                postsToReturn = postsToReturn.Where(p => p.Title == postQueryParameters.Title);
+                postsToReturn = postsToReturn.Where(p => p.Title.Contains(postQueryParameters.Title));
             }
             return postsToReturn.Include(p => p.Category).ToList();
         }
