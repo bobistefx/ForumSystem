@@ -52,7 +52,7 @@ namespace AutomotiveForumSystem
                 });
             });
             // Configure JWT authentication
-
+            // test commit
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {
