@@ -53,6 +53,7 @@ namespace AutomotiveForumSystem
             });
             // Configure JWT authentication
             // test commit
+            // another test commit
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {
